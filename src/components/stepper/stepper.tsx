@@ -9,7 +9,7 @@ import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { StepButton } from '@mui/material';
 import { actions } from '../../store/stepper/stepper.slice';
 
-const steps = ['Общая информация', 'Текстиль', 'Печать', 'Доставка и упаковка'];
+const steps = ['Общая информация', 'Пошив', 'Печать', 'Доставка и упаковка'];
 
 
 
@@ -18,7 +18,6 @@ const steps = ['Общая информация', 'Текстиль', 'Печа�
 const StepperComponent: React.FC = () => {
     
     const { activeStep, currentStep } = useAppSelector(store => store.stepper)
-    console.log(activeStep)
     const dispatch = useAppDispatch();
 
     const stepClickHandler = (index: number) => () => {
@@ -28,17 +27,14 @@ const StepperComponent: React.FC = () => {
 
     return (
     <>
-        <Box sx={{ width: '100%' }}>
+        <Box sx={{ width: '80%' }}>
             <Stepper nonLinear activeStep={activeStep - 1}>
                 {steps.map((label, index) => {
-                const stepProps: { completed?: boolean } = { completed: activeStep < currentStep};
-                const labelProps: {
-                    optional?: React.ReactNode;
-                } = {};
+                const stepProps: { completed?: boolean } = {completed: index + 1 < currentStep};
                 return (
                     <Step key={label} {...stepProps}>
-                        <StepButton onClick={stepClickHandler(index)}>
-                            <StepLabel {...labelProps}>{label}</StepLabel>
+                        <StepButton onClick={stepClickHandler(index)} disabled={index + 1 > currentStep}>
+                            <StepLabel>{label}</StepLabel>
                         </StepButton>
                     </Step>
                 );

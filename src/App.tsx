@@ -5,7 +5,6 @@ import styles from './App.module.css';
 
 
 function App () {
-  console.log('test');
 
   return (
     <main className={styles.content}>

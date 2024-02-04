@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { reducer as tasksReducer } from './task/task.slice';
+import { reducer as tasksReducer } from './first-step/first-step.slice';
 import { reducer as stepperReducer } from './stepper/stepper.slice';
 
 
@@ -8,7 +8,7 @@ import { reducer as stepperReducer } from './stepper/stepper.slice';
 
 export const store = configureStore({
     reducer: {
-        tasks: tasksReducer,
+        firstStep: tasksReducer,
         stepper: stepperReducer
     }
 })
