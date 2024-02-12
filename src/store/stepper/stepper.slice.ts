@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    activeStep: 2,
-    currentStep: 2,
+    activeStep: 1,
+    currentStep: 1,
 }
 export const stepperSlice = createSlice({
     name: 'stepper',

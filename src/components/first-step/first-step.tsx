@@ -1,5 +1,5 @@
 import React, { ChangeEventHandler, SyntheticEvent } from "react";
-import Box from '@mui/material/Box';
+
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
@@ -14,8 +14,10 @@ import { useAppSelector } from "../../store/hooks";
 import { useAppDispatch } from "../../store/hooks";
 import { actions as firstStepActions } from "../../store/first-step/first-step.slice";
 import { actions as stepperActions } from "../../store/stepper/stepper.slice";
+import { actions as secondStepActions } from "../../store/second-step/second-step.slice";
 import 'dayjs/locale/de';
 import dayjs from "dayjs";
+import Box from '@mui/material/Box';
 
 
 
@@ -47,6 +49,7 @@ const FirstStep: React.FC = () => {
         e.preventDefault();
         const newCurrentStep = activeStep === currentStep ? currentStep + 1 : currentStep;
         dispatch(stepperActions.changeCurrentStep(newCurrentStep))
+        dispatch(secondStepActions.setSewingOptions(textileType));
     }
 
 

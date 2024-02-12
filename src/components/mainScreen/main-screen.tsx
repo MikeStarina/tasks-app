@@ -1,9 +1,9 @@
 import React from "react";
-import styles from './main-screen.module.css';
 import FirstStep from "../first-step/first-step";
 import SecondStep from "../second-step/second-step";
 import { useAppSelector } from "../../store/hooks";
-import dayjs from "dayjs";
+import ThirdStep from "../third-step/third-step";
+
 
 
 
@@ -17,6 +17,7 @@ const MainScreen: React.FC = () => {
         <>
             {activeStep === 1 && <FirstStep />}
             {activeStep === 2 && <SecondStep />}
+            {activeStep === 3 && <ThirdStep />}
         </>
     )
 }

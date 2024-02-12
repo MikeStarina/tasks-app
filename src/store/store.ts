@@ -1,6 +1,8 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { reducer as tasksReducer } from './first-step/first-step.slice';
+import { reducer as secondStepReducer } from './second-step/second-step.slice';
 import { reducer as stepperReducer } from './stepper/stepper.slice';
+import { reducer as thirdStepReducer } from './third-step/third-step.slice';
 
 
 //const reducers = combineReducers([tasksReducer, stepperReducer])
@@ -9,7 +11,9 @@ import { reducer as stepperReducer } from './stepper/stepper.slice';
 export const store = configureStore({
     reducer: {
         firstStep: tasksReducer,
-        stepper: stepperReducer
+        stepper: stepperReducer,
+        secondStep: secondStepReducer,
+        thirdStep: thirdStepReducer
     }
 })
 

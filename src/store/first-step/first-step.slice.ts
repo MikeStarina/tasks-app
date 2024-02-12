@@ -3,21 +3,23 @@ import dayjs from "dayjs";
 import 'dayjs/locale/de';
 
 interface IFirstStep {
+    stepOneName: string;
     orderNumber: string;
     managerName: string;
     startDate: any;
     dueDate: any;
     textileType: string;
-    textileQty?: number;
+    textileQty: string;
 }
 
 const initialState: IFirstStep = {
+    stepOneName: 'ОБЩАЯ ИНФОРМАЦИЯ',
     orderNumber: '',
     managerName: '',
     startDate: JSON.stringify(dayjs().locale("de")),
     dueDate: JSON.stringify(dayjs().locale("de").add(30, 'day')),
-    textileType: '',
-    textileQty: 0
+    textileType: 'Худи',
+    textileQty: '70'
 };
 
 export const firstStepSlice = createSlice({
