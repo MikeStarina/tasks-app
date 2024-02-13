@@ -1,9 +1,6 @@
-import React from 'react';
-import { PDFViewer, Page, Text, View, Document, StyleSheet, Font, Image, Svg, BlobProvider } from '@react-pdf/renderer';
+import { PDFViewer, Page, Text, View, Document, StyleSheet, Font, Image } from '@react-pdf/renderer';
 import { useAppSelector } from '../../store/hooks';
 import Roboto from '../../fonts/Roboto-Regular.ttf';
-import pnhdLogo from '/pnhdLogo.png';
-import useImage from 'use-image';
 import PdfHeader from './pdf-header';
 import PdfFooter from './pdf-footer';
 import SizesTable from './sizes-table';

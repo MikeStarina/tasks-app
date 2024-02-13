@@ -1,11 +1,7 @@
 import React from 'react'
 import styles from './third-step.module.css';
 import TextField from '@mui/material/TextField';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import Checkbox from '@mui/material/Checkbox';
 import FormGroup from '@mui/material/FormGroup';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
@@ -56,7 +52,7 @@ const ThirdStep: React.FC = () => {
                     </FormGroup>
                     {isOrderWithPrint && <TextField id="printQty" name='printQty' label="Количество принтов" variant="outlined" required={true} inputProps={{ pattern: "[1-9]" }} value={printQty} onChange={onChangeHandler}/>}
                     {prints && prints!.length > 0 && prints!.map((item, index) => {
-      
+                        if (item)
                         return (
                            
                                 <PrintComp index={index} key={index}/>
