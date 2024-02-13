@@ -157,6 +157,7 @@ export const initialPrintState: IPrint = {
     comments: '',
     printPreview: null,
     mockup: null,
+    sizes: [{ size: 'XS', qty: ''}, { size: 'S', qty: ''}, { size: 'M', qty: ''}, { size: 'L', qty: ''}, { size: 'XL', qty: ''}, { size: 'XXL', qty: ''}, { size: 'XXXL', qty: ''}],
 }
 
 

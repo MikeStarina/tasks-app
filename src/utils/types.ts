@@ -1,18 +1,12 @@
-export type ISSParams = {
-    pantoneColors: string,
-    isAntimigration: boolean,
-    isCMYK: boolean,
-    isStretch: boolean,
-    specialEffects: string,
-    printPreview: Blob,
-    mockup: Blob,
+export interface IPrintParams {
+    pantoneColors?: string,
+    isAntimigration?: boolean,
+    isCMYK?: boolean,
+    isStretch?: boolean,
+    specialEffects?: string,
+    threadsColors?: string,
 }
-export type IEmbParams = {
-    threadsColors: string,
-}
-export type IHTParams = {
-    specialEffects: string,
-}
+
 
 
 
@@ -22,10 +16,16 @@ export type IPrint = {
         printHeight: string,
         position: string,
         printMargins: string,
-        params?: ISSParams | IEmbParams | IHTParams,
+        params?: IPrintParams,
         comments: string,
         printPreview?: any,
         mockup?: any,
+        sizes: Array<
+        {
+            size: string;
+            qty: string;
+        }
+    >;
 }
 
 export type TPrintParams = Pick<IPrint, 'method' | 'params'>;

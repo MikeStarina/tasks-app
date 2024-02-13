@@ -26,7 +26,7 @@ type TProps = {
 const SizesTable: React.FC<TProps> = ({sizes, textileQty, fabricColor}) => {
 
     
-
+    const sum = sizes?.reduce((acc, { qty }) => qty === '0' || qty === '' ? acc : acc + parseInt(qty), 0)
     const styles = StyleSheet.create({       
 
        
@@ -73,7 +73,7 @@ const SizesTable: React.FC<TProps> = ({sizes, textileQty, fabricColor}) => {
                             </View>
                           ))}
                           <View style={{minWidth: '40px', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: '1px solid black'}}>
-                                <Text>{textileQty}</Text>
+                                <Text>{sum}/{textileQty}</Text>
                           </View>
                         </View>  
 
