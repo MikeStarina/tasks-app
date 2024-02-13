@@ -1,9 +1,9 @@
 import React from 'react';
-import { PDFViewer, Page, Text, View, Document, StyleSheet, Font, Image, Svg } from '@react-pdf/renderer';
+import { PDFViewer, Page, Text, View, Document, StyleSheet, Font, Image, Svg, BlobProvider } from '@react-pdf/renderer';
 import { useAppSelector } from '../../store/hooks';
 import Roboto from '../../fonts/Roboto-Regular.ttf';
 import pnhdLogo from '/pnhdLogo.png';
-
+import useImage from 'use-image';
 import PdfHeader from './pdf-header';
 import PdfFooter from './pdf-footer';
 import SizesTable from './sizes-table';
@@ -20,7 +20,7 @@ import PdfPrintParams from './pdfPrintParams/pdfPrintParams';
 const Pdfrenderer = () => {
 
     const { orderNumber, managerName, startDate, dueDate, textileType, textileQty, stepOneName } = useAppSelector(store => store.firstStep)
-    const { fabricColor, primaryFabricType, secondaryFabricType, stepTwoName, supplier, sizes, printOnParts, sewingOptions, furniture } = useAppSelector(store => store.secondStep)
+    const { fabricColor, primaryFabricType, secondaryFabricType, stepTwoName, supplier, sizes, printOnParts, sewingOptions, furniture, sewingComment } = useAppSelector(store => store.secondStep)
     const { stepThreeName, isOrderWithPrint, prints } = useAppSelector(store => store.thirdStep)
 
     const neckClosure = sewingOptions[0].neckClosure.filter((item) => item.status)[0];
@@ -34,6 +34,8 @@ const Pdfrenderer = () => {
       const formattedDate = `${dateArray[0]}.${dateArray[1]}.${dateArray[2]}`
       return formattedDate
     }
+
+
     const styles = StyleSheet.create({       
 
        
@@ -83,11 +85,27 @@ const Pdfrenderer = () => {
         },
         logo: {
           width: '200px',
+        },
+        previewWrapper: {
+          display: 'flex',
+          flexDirection: 'row',
+          justifyContent: 'center',
+          alignItems: 'flex-start',
+          width: '100%',
+          padding: '15 0',
+          gap: 10
+        },
+        imgColumn: {
+          width: '50%',
+          height: '300px',
+          display: 'flex',
+          justifyContent: 'center',
+          border: '1px solid black'
         }
       });
 
       const MyDocument = () => (
-        <Document>
+        <Document title={orderNumber}>
           <Page size="A4" style={styles.page}>
               <PdfHeader orderNumber={orderNumber} />
               <View style={styles.twoColumns}>
@@ -109,7 +127,7 @@ const Pdfrenderer = () => {
 
 
           <Page size="A4" style={styles.page}>
-            <PdfHeader orderNumber={orderNumber} />
+            
             <View style={styles.sewing}>
                 <View style={styles.columnOne}>
                     <Text style={styles.orderNumber}>{stepTwoName}</Text>
@@ -161,9 +179,12 @@ const Pdfrenderer = () => {
                   <Text>Бирки: {furniture.basicSizeLabel && 'Размерник PNHD'}, {furniture.basicContainLabel && 'Составник PNHD'}</Text> 
                 </View>
               </View>
+              <Text>Комментарии к пошиву:</Text>
+              <Text>{sewingComment}</Text>
               <PdfFooter />
           </Page>
           {isOrderWithPrint && prints && prints.map((item, index) => {
+            
             return(
               <Page size="A4" style={styles.page} key={index}>
                   
@@ -185,15 +206,23 @@ const Pdfrenderer = () => {
                     </View>
                   </View>
                     <View style={styles.twoColumns}>
-                      <View style={[styles.columnOne, {height: 400}]}>
-                        <Text>Превью принта:</Text>
+                        <View style={styles.columnOne}>
+                          <Text>Превью принта:</Text>
+                        </View>
+                        <View style={styles.columnTwo}>
+                          <Text>Мокап:</Text>
+                        </View>
+                    </View>
+                    <View style={styles.previewWrapper}>
+                      <View style={styles.imgColumn}>                        
                         <Image src={item.printPreview} style={{objectFit: 'contain'}}/>
                       </View>
-                      <View style={[styles.columnTwo, {height: 400}]}>
-                        <Text>Мокап:</Text>
+                      <View style={styles.imgColumn}>
+                        
                         <Image src={item.mockup} style={{objectFit: 'contain'}}/>
                       </View>
                     </View>
+                    <SizesTable sizes={item.sizes} textileQty={textileQty} fabricColor={fabricColor} />
                   </View>
                   <PdfFooter />
               </Page>

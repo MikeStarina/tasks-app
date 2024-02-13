@@ -12,6 +12,7 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
+import PrintSizesComponent from '../print-sizes-component copy/print-sizes-component';
 
 
 
@@ -34,7 +35,9 @@ const PrintComp: React.FC<{ index: number}> = ({ index }) => {
     }
 
     const fileUpload = (e: any) => {
-        dispatch(thirdStepActions.setImages({name: e.target.name, file: URL.createObjectURL(e.target.files[0]), index}))
+       
+       
+        dispatch(thirdStepActions.setImages({name: e.target.name, fileLink: URL.createObjectURL(e.target.files[0]), index}))
     }
 
     const basicInfoChangeHandler = (e: any) => {
@@ -102,6 +105,7 @@ const PrintComp: React.FC<{ index: number}> = ({ index }) => {
                     </Button>
                 </div>
             </div>}
+            {currentPrint.method && <PrintSizesComponent currentPrint={currentPrint} index={index} />}
             </div>
     )
 }
@@ -208,3 +212,21 @@ const HTParams: React.FC<any> = ({currentPrint, index}) => {
     )
 }
 
+/**
+ * const onChange = (e) => {
+    e.preventDefault();
+
+    const data = new FormData();
+    const print = photoProcessing(e.target.files[0]);
+    if (print === undefined) {
+      dispatch(openPopup(['Не тот формат файла']));
+    } else {
+      data.append('files', print, `${uuidv4()}_${print.name}`);
+
+       printUploadFunc - так-же вызывает ф-цию setCoords
+      - которая задает позицию появления привью изображения 
+      dispatch(printUploadFunc(data, activeView, item.type, item.color));
+    }
+    e.currentTarget.reset();
+  };
+ */

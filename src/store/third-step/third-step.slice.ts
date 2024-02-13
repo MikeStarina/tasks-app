@@ -8,7 +8,7 @@ interface IInitialState {
     stepThreeName: string,
     isOrderWithPrint: boolean,
     printQty: string,
-    prints?: Array<any>,
+    prints?: Array<IPrint>,
 }
 
 const initialState: IInitialState = {
@@ -54,6 +54,13 @@ export const ThirdStepSlice = createSlice({
             state.prints![index].params!.specialEffects = value;
             
         },
+        setPrintSizes: (state, { payload }) => {
+            const { value, index, size } = payload;
+            state.prints![index].sizes.forEach((item) => {
+                if (item.size === size) item.qty = value;
+            });
+            
+        },
         setBasicPrintInfo: (state, { payload }) => {
             const { name, value, index } = payload;
             if (name === 'printWidth') state.prints![index].printWidth = value;
@@ -64,10 +71,14 @@ export const ThirdStepSlice = createSlice({
         },
         setImages: (state, { payload }) => {
             if (payload.name === 'printPreview') {
-                console.log(payload);
-                state.prints![payload.index].printPreview = payload.file;
+                //console.log(payload);
+                state.prints![payload.index].printPreview = payload.fileLink;
+                //state.prints![payload.index].blobPreview = payload.data;
             }
-            if (payload.name === 'mockup') state.prints![payload.index].mockup = payload.file;
+            if (payload.name === 'mockup') {
+                state.prints![payload.index].mockup = payload.fileLink
+                //state.prints![payload.index].blobMockup = payload.data
+            };
         },
     },
 });
