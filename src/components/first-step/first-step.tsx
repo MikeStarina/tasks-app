@@ -1,8 +1,8 @@
-import React, { ChangeEventHandler, SyntheticEvent } from "react";
+import React from "react";
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import Select from '@mui/material/Select';
 import MenuItem from '@mui/material/MenuItem';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';

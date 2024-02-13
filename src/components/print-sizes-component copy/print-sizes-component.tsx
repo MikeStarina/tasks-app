@@ -21,7 +21,6 @@ const PrintSizesComponent: React.FC<TProps> = ({ currentPrint, index }) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const totalQty = parseInt(textileQty);
         const sum = sizes?.reduce((acc, { qty }) => qty === '0' || qty === '' ? acc : acc + parseInt(qty), 0)        
         setRealQty(sum!); 
     }, [sizes])

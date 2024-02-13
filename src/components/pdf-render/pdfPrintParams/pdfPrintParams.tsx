@@ -1,9 +1,8 @@
 import React from "react"
-import { PDFViewer, Page, Text, View, Document, StyleSheet, Font, Image, Svg } from '@react-pdf/renderer';
+import { Text } from '@react-pdf/renderer';
 
 const PdfPrintParams: React.FC<any> = ({item}) => {
     const { params, method } = item;
-    console.log(item);
     
 
     return (

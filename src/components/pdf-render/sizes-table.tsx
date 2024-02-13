@@ -1,10 +1,5 @@
 import React from 'react';
-import { PDFViewer, Page, Text, View, Document, StyleSheet, Font, Image, Svg } from '@react-pdf/renderer';
-import { useAppSelector } from '../../store/hooks';
-import Roboto from '../../fonts/Roboto-Regular.ttf';
-import pnhdLogo from '/pnhdLogo.png';
-import PdfHeader from './pdf-header';
-import PdfFooter from './pdf-footer';
+import { Text, View, StyleSheet } from '@react-pdf/renderer';
 
 
 

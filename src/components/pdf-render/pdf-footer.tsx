@@ -1,6 +1,5 @@
 import React from 'react';
-import { PDFViewer, Page, Text, View, Document, StyleSheet, Font, Image, Svg } from '@react-pdf/renderer';
-import { useAppSelector } from '../../store/hooks';
+import { Text, View, StyleSheet, Font, Image } from '@react-pdf/renderer';
 import Roboto from '../../fonts/Roboto-Regular.ttf';
 import qrCode from '/qrCode.png';
 
