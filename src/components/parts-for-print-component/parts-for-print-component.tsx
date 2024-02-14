@@ -108,10 +108,9 @@ const PartForPrintComponent: React.FC = () => {
 
     return (
         <>
-        <FormControlLabel control={<Switch value={isPrintOnParts} onChange={switchChangeHandler} />} label="Печать в крое" />
-        <div className={styles.boxWrapper}>
-        <div className={styles.parts_box}>            
-            <FormGroup>
+        <FormControlLabel control={<Switch value={isPrintOnParts} onChange={switchChangeHandler} />} label="Печать в крое" sx={{marginBottom: '50px'}}/>
+        <div className={styles.boxWrapper}>         
+            <FormGroup sx={{width: '33%'}}>
             {isPrintOnParts && currentOption.parts.map(({ruName, engName}, index) => {
 
                 return (                    
@@ -126,15 +125,15 @@ const PartForPrintComponent: React.FC = () => {
                 )
             })}
             </FormGroup>
-        </div>
-        <div className={styles.methods_box}>
+
+                    <div className={styles.methods_box}>
                     {partsForPrint.map((part, index) => {
 
                         if (part.isForPrint) {
                         return (
                             <FormControl sx={{width: '50%'}} key={index}>
                                 <InputLabel id={part.name}>{part.ruName} - метод печати</InputLabel>
-                                <Select labelId={`${part.name}Label`} id={`${part.name}Method`} name={part.name} label={`${part.ruName} - метод печати`} variant="outlined" required size='small' onChange={selectOnChangeHandler} value={part.method}>
+                                <Select labelId={`${part.name}Label`} id={`${part.name}Method`} name={part.name} label={`${part.ruName} - метод печати`} variant="outlined" required size='small' onChange={selectOnChangeHandler} value={part.method} sx={{padding: '5px'}}>
                                     {printMethods.map(({engMethod, ruMethod}, index)=>(
                                         <MenuItem key={index} value={engMethod}>{ruMethod}</MenuItem>
                                     ))}
@@ -145,8 +144,9 @@ const PartForPrintComponent: React.FC = () => {
                         )
                     }
                     })}
+                    </div>
         </div>
-        </div>
+
         </>
     )
 }

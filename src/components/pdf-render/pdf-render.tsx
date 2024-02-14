@@ -16,7 +16,7 @@ import PdfPrintParams from './pdfPrintParams/pdfPrintParams';
 
 const Pdfrenderer = () => {
 
-    const { orderNumber, managerName, startDate, dueDate, textileType, textileQty, stepOneName } = useAppSelector(store => store.firstStep)
+    const { orderNumber, managerName, startDate, dueDate, textileType, textileQty, stepOneName, passport } = useAppSelector(store => store.firstStep)
     const { fabricColor, primaryFabricType, secondaryFabricType, stepTwoName, supplier, sizes, printOnParts, sewingOptions, furniture, sewingComment } = useAppSelector(store => store.secondStep)
     const { stepThreeName, isOrderWithPrint, prints } = useAppSelector(store => store.thirdStep)
 
@@ -131,7 +131,7 @@ const Pdfrenderer = () => {
                     <Text>Основное полотно: {primaryFabricType}</Text>   
                     <Text>Отделочное полотно: {secondaryFabricType}</Text>
                     <Text>Поставщик: {supplier}</Text>
-                    <Text>Паспорт модели: {supplier}</Text>
+                    <Text>Паспорт модели: {passport}</Text>
                 </View>              
                 <SizesTable sizes={sizes} textileQty={textileQty} fabricColor={fabricColor} />          
               </View>
@@ -173,7 +173,7 @@ const Pdfrenderer = () => {
 
                   <Text>Фурнитура и бирки:</Text>  
                   {furniture.isCord && <Text>Шнур, цвет шнура: {furniture.cordColor}</Text>}
-                  <Text>Бирки: {furniture.basicSizeLabel && 'Размерник PNHD'}, {furniture.basicContainLabel && 'Составник PNHD'}</Text> 
+                  {/*<Text>Бирки: {furniture.basicSizeLabel && 'Размерник PNHD'}, {furniture.basicContainLabel && 'Составник PNHD'}</Text> */}
                 </View>
               </View>
               <Text>Комментарии к пошиву:</Text>

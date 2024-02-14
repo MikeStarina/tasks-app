@@ -6,6 +6,13 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { actions as secondStepActions } from '../../store/second-step/second-step.slice';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormControl from '@mui/material/FormControl';
+import FormLabel from '@mui/material/FormLabel';
+import Select from '@mui/material/Select';
+import MenuItem from '@mui/material/MenuItem';
+import InputLabel from '@mui/material/InputLabel';
 
 
 
@@ -39,12 +46,16 @@ const FurnitureOptions: React.FC<TProps> = (props) => {
 
     const dispatch = useAppDispatch();
     const { furniture } = useAppSelector(store => store.secondStep);
+    const { sizeLabel, containLabel } = furniture;
 
 
 
     const changeHandler = (e: any) => {
-        e.target.name != 'cordColor' && dispatch(secondStepActions.setFurniture({name: e.target.name, value: e.target.checked}))
         e.target.name === 'cordColor' && dispatch(secondStepActions.setFurniture({name: e.target.name, value: e.target.value}))
+        e.target.id === 'sizeLabel' && dispatch(secondStepActions.setLabels({id: e.target.id, name: e.target.name }))
+        e.target.id === 'containLabel' && dispatch(secondStepActions.setLabels({id: e.target.id, name: e.target.name }))
+        e.target.name === 'sizeLabelAssemblingType' && dispatch(secondStepActions.setLabelsAssembling({id: e.target.name, value: e.target.value }))
+        e.target.name === 'containLabelAssemblingType' && dispatch(secondStepActions.setLabelsAssembling({id: e.target.name, value: e.target.value }))
     }
 
     return (
@@ -74,26 +85,52 @@ const FurnitureOptions: React.FC<TProps> = (props) => {
             </div>
             </>
             }
-            <h3>Бирки</h3>
-            <div className={styles.box}>
-            <FormGroup>
-                 
-                        <FormControlLabel
-                            control={
-                            <Checkbox name='basicSizeLabel' checked={furniture.basicSizeLabel} onChange={changeHandler}/>
-                            }
-                            label='Размерник PNHD'
-                            
-                        />          
-                        <FormControlLabel
-                            control={
-                            <Checkbox name='basicContainLabel' checked={furniture.basicContainLabel} onChange={changeHandler}/>
-                            }
-                            label='Составник PNHD'
-                            
-                        />          
-
-            </FormGroup>
+            
+            <div className={styles.wrapper}>
+                <div className={styles.box}>
+                    <h4>Бирки /Размерник/:</h4>
+                    <FormControl>
+                        <FormLabel id="sizeBadgeLabel">Тип размерника:</FormLabel>
+                        <RadioGroup
+                            aria-labelledby="sizeBadgeLabel"
+                            name="sizeBadge-buttons-group"
+                        >                    
+                            {sizeLabel.map((item, index) => (
+                                <FormControlLabel key={index} id='sizeLabel' value={item.name} control={<Radio id='sizeLabel'/>} name={item.type} label={item.name} onChange={changeHandler} checked={item.status}/>        
+                            ))}
+                        </RadioGroup>
+                    </FormControl>
+                    <FormControl sx={{width: '220px'}}>
+                                <InputLabel id="assemblingTypeLabel">Вид притачивания:</InputLabel>
+                                <Select labelId="assemblingTypeLabel" id="sizeLabelAssemblingType" name='sizeLabelAssemblingType'label='Вид притачивания' variant="outlined" required sx={{width: '220px', padding: '5px'}} size='small' value={furniture.sizeLabelAssembling} onChange={changeHandler}>
+                                    <MenuItem value='Левый боковой шов'>Левый боковой шов</MenuItem>
+                                    <MenuItem value='Правый боковой шов'>Правый боковой шов</MenuItem>
+                                    <MenuItem value='Центр горловины'>Центр горловины</MenuItem>
+                                </Select>
+                    </FormControl>
+                </div>
+                <div className={styles.box}>
+                    <h4>Бирки /Составник/:</h4>
+                    <FormControl>
+                        <FormLabel id="containBadgeLabel">Тип составника:</FormLabel>
+                        <RadioGroup
+                            aria-labelledby="containBadgeLabel"
+                            name="containBadgeLabel-buttons-group"
+                        >                    
+                            {containLabel.map((item, index) => (
+                                <FormControlLabel key={index} id='containLabel' value={item.name} control={<Radio id='containLabel'/>} name={item.type} label={item.name} onChange={changeHandler} checked={item.status}/>        
+                            ))}
+                        </RadioGroup>
+                    </FormControl>
+                    <FormControl sx={{width: '220px'}}>
+                                <InputLabel id="assemblingTypeLabel">Вид притачивания:</InputLabel>
+                                <Select labelId="assemblingTypeLabel" id="containLabelAssemblingType" name='containLabelAssemblingType'label='Вид притачивания' variant="outlined" required sx={{width: '220px', padding: '5px'}} size='small' value={furniture.containLabelAssembling} onChange={changeHandler}>
+                                    <MenuItem value='Левый боковой шов'>Левый боковой шов</MenuItem>
+                                    <MenuItem value='Правый боковой шов'>Правый боковой шов</MenuItem>
+                                    <MenuItem value='Центр горловины'>Центр горловины</MenuItem>
+                                </Select>
+                    </FormControl>
+                </div>
             </div>
         </>
     )

@@ -1,12 +1,12 @@
 {
-  "homepage": "http://mikestarina.github.io/tasks-app/",
+  "homepage": "https://mikestarina.github.io/tasks-app",
   "name": "tasks-app",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
+    "deploy": "gh-pages -d dist",
     "dev": "vite",
     "build": "tsc && vite build",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
