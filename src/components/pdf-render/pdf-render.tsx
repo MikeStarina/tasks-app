@@ -173,7 +173,7 @@ const Pdfrenderer = () => {
 
                   <Text>Фурнитура и бирки:</Text>  
                   {furniture.isCord && <Text>Шнур, цвет шнура: {furniture.cordColor}</Text>}
-                  <Text>Бирки: {furniture.basicSizeLabel && 'Размерник PNHD'}, {furniture.basicContainLabel && 'Составник PNHD'}</Text> 
+                  {/*<Text>Бирки: {furniture.basicSizeLabel && 'Размерник PNHD'}, {furniture.basicContainLabel && 'Составник PNHD'}</Text> */}
                 </View>
               </View>
               <Text>Комментарии к пошиву:</Text>
