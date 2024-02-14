@@ -10,6 +10,7 @@ import PrintComp from '../print-comp/print-comp';
 import Button from '@mui/material/Button';
 import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
+import { actions as stepperActions } from '../../store/stepper/stepper.slice';
 
 
 
@@ -21,12 +22,18 @@ import Box from '@mui/material/Box';
 const ThirdStep: React.FC = () => {
 
     const { isOrderWithPrint, printQty, prints } = useAppSelector(store => store.thirdStep)
+    const { activeStep, currentStep } = useAppSelector(store => store.stepper)
     const dispatch = useAppDispatch();
     //console.log(prints)
     const onChangeHandler = (e: any) => {
         const { name } = e.target;
         name === 'isOrderWithPrint' && dispatch(thirdStepActions.setIsOrderWithPrint(e.target.checked))
         name === 'printQty' && dispatch(thirdStepActions.setPrintQty(e.target.value))
+    }
+    const submitHandler = (e: any) => {
+        e.preventDefault();
+        const newCurrentStep = activeStep === currentStep ? currentStep + 1 : currentStep;
+        dispatch(stepperActions.changeCurrentStep(newCurrentStep))
     }
 
     return(
@@ -38,6 +45,7 @@ const ThirdStep: React.FC = () => {
                         flexDirection: 'column',
                         gap: '20px',
                     }}
+                    onSubmit={submitHandler}
                 >
                     <FormGroup>
                         <FormControlLabel

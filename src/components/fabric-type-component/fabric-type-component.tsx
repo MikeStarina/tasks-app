@@ -5,6 +5,7 @@ import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { actions as secondStepActions } from "../../store/second-step/second-step.slice";
+import TextField from '@mui/material/TextField';
 
 
 
@@ -33,6 +34,7 @@ const FabricTypeComponent: React.FC = () => {
                             <MenuItem value='Коттон пром'>Коттон пром</MenuItem>
                         </Select>
                     </FormControl>
+                    {/* 
                     <FormControl>
                         <InputLabel id="primaryFabricLabel">Основное полотно</InputLabel>
                         <Select labelId="primaryFabricLabel" id="primaryFabric" name='primaryFabric'label='Основное полотно' variant="outlined" onChange={onChangeHandler} value={primaryFabricType} required>
@@ -40,6 +42,8 @@ const FabricTypeComponent: React.FC = () => {
                             <MenuItem value='Футер'>Футер</MenuItem>
                         </Select>
                     </FormControl>
+                    */}
+                    <TextField id="primaryFabric" name='primaryFabric' label="Основное полотно" variant="outlined" value={primaryFabricType} onChange={onChangeHandler} required={true} />
                     <FormControl>
                         <InputLabel id="secondaryFabricLabel">Отделочное полотно</InputLabel>
                         <Select labelId="secondaryFabricLabel" id="secondaryFabric" name='secondaryFabric'label='Отделочное полотно' variant="outlined" onChange={onChangeHandler} value={secondaryFabricType} required>

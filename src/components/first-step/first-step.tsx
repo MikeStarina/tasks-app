@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useRef, useEffect} from "react";
 
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
@@ -26,15 +26,21 @@ import Box from '@mui/material/Box';
 
 const FirstStep: React.FC = () => {
 
-    const { orderNumber, managerName, startDate, dueDate, textileType, textileQty } = useAppSelector(store => store.firstStep);
+    const { orderNumber, managerName, startDate, dueDate, textileType, textileQty, passport } = useAppSelector(store => store.firstStep);
     const { activeStep, currentStep } = useAppSelector(store => store.stepper);
     const dispatch = useAppDispatch();
+    const ref = useRef(null);
+
+    useEffect(() => {
+
+    }, [])
 
     const textInputsChangeHandler = (e: any) => {
         e.target.name === 'orderNumber' && dispatch(firstStepActions.addOrderNumber(e.target.value));
         e.target.name === 'textileQty' && dispatch(firstStepActions.addTextileQty(e.target.value));
         e.target.name === 'managerName' && dispatch(firstStepActions.addManagerName(e.target.value));
         e.target.name === 'textileType' && dispatch(firstStepActions.addTextileType(e.target.value));
+        e.target.name === 'modelPassport' && dispatch(firstStepActions.addPassport(e.target.value));
     };
 
     const addStartDate = (newValue: any) => {
@@ -46,7 +52,7 @@ const FirstStep: React.FC = () => {
     }
 
     const submitHandler = (e: any) => {
-        e.preventDefault();
+        e.preventDefault();        
         const newCurrentStep = activeStep === currentStep ? currentStep + 1 : currentStep;
         dispatch(stepperActions.changeCurrentStep(newCurrentStep))
         dispatch(secondStepActions.setSewingOptions(textileType));
@@ -57,6 +63,7 @@ const FirstStep: React.FC = () => {
         <section className={styles.content}>
             
                 <Box component="form" onSubmit={submitHandler}
+                ref={ref}
                 sx={{
                     width: '100%',
                     display: 'flex',
@@ -65,14 +72,7 @@ const FirstStep: React.FC = () => {
                 }}
                 >
                     <TextField id="order_number" name='orderNumber' label="Номер заказа" variant="outlined" value={orderNumber} onChange={textInputsChangeHandler} required={true} />
-                    <FormControl>
-                        <InputLabel id="managerNameLabel" required={true}>Менеджер</InputLabel>
-                        <Select labelId="managerNameLabel" id="managerName" name='managerName'label='Менеджер' variant="outlined" value={managerName} onChange={textInputsChangeHandler} required={true}>
-                            <MenuItem value='ФИО1'>ФИО1</MenuItem>
-                            <MenuItem value='ФИО2'>ФИО2</MenuItem>
-                            <MenuItem value='ФИО3'>ФИО3</MenuItem>
-                        </Select>
-                    </FormControl>
+                    <TextField id="managerName" name='managerName' label="Менеджер" variant="outlined" value={managerName} onChange={textInputsChangeHandler} required={true} />
                     <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                         <DatePicker name='startDate' label='Дата начала' value={dayjs(JSON.parse(startDate))} onChange={(newValue) => addStartDate(newValue)} views={['year', 'month', 'day']} />                        
                     </LocalizationProvider>
@@ -84,8 +84,10 @@ const FirstStep: React.FC = () => {
                         <Select labelId="textileLabel" id="textileType" name='textileType'label='Вид изделий' variant="outlined" value={textileType} onChange={textInputsChangeHandler} required={true}>
                             <MenuItem value='Футболка'>Футболка</MenuItem>
                             <MenuItem value='Худи'>Худи</MenuItem>
+                            <MenuItem value='Свитшот'>Свитшот</MenuItem>
                         </Select>
                     </FormControl>
+                    <TextField id="modelPassport" name='modelPassport' label="Паспорт модели" variant="outlined" value={passport} onChange={textInputsChangeHandler} required={true} />
                     <TextField id="textileQty" name='textileQty' label="Количество" variant="outlined" value={textileQty} onChange={textInputsChangeHandler} required={true} />
                     <Button variant="contained" type='submit'
                         sx={{

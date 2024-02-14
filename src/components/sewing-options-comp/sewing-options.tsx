@@ -53,7 +53,7 @@ const SewingOptions: React.FC<TProps> = (props) => {
         <h3>Опции пошива</h3>
         <div className={styles.box}>
             
-        <FormControl>
+        <FormControl sx={{width: '33%'}}>
                 <FormLabel id="neckClosureLabel">Закрытие горловины:</FormLabel>
                 <RadioGroup
                     aria-labelledby="neckClosureLabel"
@@ -67,7 +67,7 @@ const SewingOptions: React.FC<TProps> = (props) => {
                     })}
                 </RadioGroup>
         </FormControl>
-        <FormControl>
+        <FormControl sx={{width: '33%'}}>
                 <FormLabel id="neckSewingLabel">Обработка горловины:</FormLabel>
                 <RadioGroup
                     aria-labelledby="neckSewingLabel"
@@ -81,7 +81,7 @@ const SewingOptions: React.FC<TProps> = (props) => {
                     })}
                 </RadioGroup>
         </FormControl>
-        <FormGroup>
+        <FormGroup sx={{width: '33%'}}>
                 <FormLabel id="FlatlockLabel">Распошив элементов:</FormLabel>
                {currentOptions.flatlock.map((item, index) => {
 

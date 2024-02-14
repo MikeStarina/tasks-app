@@ -10,6 +10,7 @@ interface IFirstStep {
     dueDate: any;
     textileType: string;
     textileQty: string;
+    passport: string;
 }
 
 const initialState: IFirstStep = {
@@ -19,7 +20,8 @@ const initialState: IFirstStep = {
     startDate: JSON.stringify(dayjs().locale("de")),
     dueDate: JSON.stringify(dayjs().locale("de").add(30, 'day')),
     textileType: 'Худи',
-    textileQty: '70'
+    textileQty: '70',
+    passport: '',
 };
 
 export const firstStepSlice = createSlice({
@@ -43,6 +45,9 @@ export const firstStepSlice = createSlice({
         },
         addTextileQty: (state, { payload }) => {
             state.textileQty = payload;
+        },
+        addPassport: (state, { payload }) => {
+            state.passport = payload;
         },
         
     },

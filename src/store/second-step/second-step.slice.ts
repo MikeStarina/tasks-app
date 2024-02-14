@@ -22,9 +22,11 @@ interface ISecondStep {
     sewingOptions: TSewingOptions;
     furniture: {
         isCord: boolean;
-        cordColor: string;
-        basicSizeLabel: boolean;
-        basicContainLabel: boolean;
+        cordColor: string; 
+        sizeLabel: Array<{ type: string, name: string, status: boolean, }>;
+        sizeLabelAssembling: string,
+        containLabel: Array<{ type: string, name: string, status: boolean, }>;
+        containLabelAssembling: string,
     };
     sewingComment: string;
 }
@@ -53,8 +55,10 @@ const initialState: ISecondStep = {
     furniture: {
         isCord: true,
         cordColor: '',
-        basicSizeLabel: true,
-        basicContainLabel: true
+        sizeLabel: [{ type: 'basicSizeLabel', name: 'Размерник PNHD', status: true, }, { type: 'customSizeLabel', name: 'Кастомный размерник', status: false, }],
+        sizeLabelAssembling: '',
+        containLabel: [{ type: 'basicContainLabel', name: 'Составник PNHD', status: true, }, { type: 'customContainLabel', name: 'Кастомный составник', status: false, }],
+        containLabelAssembling: '',
     },
     sewingComment: '',
 };
@@ -136,13 +140,30 @@ export const secondStepSlice = createSlice({
         setFurniture: (state, { payload }) => {        
             if (payload.name === 'cord') state.furniture.isCord = payload.value;
             if (payload.name === 'cordColor') state.furniture.cordColor = payload.value;
-            if (payload.name === 'basicSizeLabel') state.furniture.basicSizeLabel = payload.value;
-            if (payload.name === 'basicContainLabel') state.furniture.basicContainLabel = payload.value;
         },       
         setSewingComment: (state, { payload }) => {        
             state.sewingComment = payload;
         },       
-         
+        setLabels: (state, { payload }) => { 
+       
+            const {id, name} = payload
+            if (id === 'sizeLabel') {
+        
+                state.furniture.sizeLabel.forEach((item) => {
+                    item.status = item.type === name ? true : false;
+                })
+            }
+            if (id === 'containLabel') {
+                state.furniture.containLabel.forEach((item) => {
+                    item.status = item.type === name ? true : false;
+                })
+            }
+        },
+        setLabelsAssembling: (state, { payload }) => {   
+            const { id, value } = payload;    
+            if (id === 'sizeLabelAssemblingType') state.furniture.sizeLabelAssembling = value;
+            if (id === 'containLabelAssemblingType') state.furniture.containLabelAssembling = value;
+        }
 }});
 
 

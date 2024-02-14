@@ -22,6 +22,10 @@ export const ThirdStepSlice = createSlice({
     reducers: {
         setIsOrderWithPrint: (state, { payload }) => {
             state.isOrderWithPrint = payload;
+            if (!payload) {
+                state.printQty = '';
+                state.prints = undefined;
+            }
         },
         setPrintQty: (state, { payload }) => {
             state.printQty = payload;
