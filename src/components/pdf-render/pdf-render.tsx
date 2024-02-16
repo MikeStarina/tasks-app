@@ -150,7 +150,7 @@ const Pdfrenderer = () => {
                   {deliveryData &&
                     <>
                     <Text>Комментарии по доставке:</Text>
-                    <Text style={{width: '250px', textAlign: 'right', marginTop: '12px', border: '1px solid red'}}>{deliveryData}</Text>
+                    <Text style={{width: '250px', textAlign: 'right', marginTop: '12px'}}>{deliveryData}</Text>
                     </>
                   }
                 </View>
