@@ -24,7 +24,6 @@ const SewingOptions: React.FC<TProps> = (props) => {
 
     const { sewingOptions } = useAppSelector(store => store.secondStep)
     const { textileType } = props;
-
     const [ currentOptions ] = sewingOptions;
 
 
@@ -52,52 +51,57 @@ const SewingOptions: React.FC<TProps> = (props) => {
         <>
         <h3>Опции пошива</h3>
         <div className={styles.box}>
-            
-        <FormControl sx={{width: '33%'}}>
-                <FormLabel id="neckClosureLabel">Закрытие горловины:</FormLabel>
-                <RadioGroup
-                    aria-labelledby="neckClosureLabel"
-                    name="neckClosure-buttons-group"
-                >
-                    {currentOptions.neckClosure.map((item, index) => {
+            <div className={styles.column}>
+                <FormControl>
+                        <FormLabel id="neckClosureLabel">Закрытие горловины:</FormLabel>
+                        <RadioGroup
+                            aria-labelledby="neckClosureLabel"
+                            name="neckClosure-buttons-group"
+                        >
+                            {currentOptions.neckClosure.map((item, index) => {
+
+                                return (
+                                    <FormControlLabel key={index} value={item.label} control={<Radio />} name={item.name} label={item.label} onChange={radioOnChangeHandler} checked={item.status}/>
+                                )
+                            })}
+                        </RadioGroup>
+                </FormControl>
+            </div>
+            <div className={styles.column}>
+                <FormControl>
+                        <FormLabel id="neckSewingLabel">Обработка горловины:</FormLabel>
+                        <RadioGroup
+                            aria-labelledby="neckSewingLabel"
+                            name="neckSewing-buttons-group"
+                        >
+                            {currentOptions.neckSewing.map((item, index) => {
+
+                                return (
+                                    <FormControlLabel key={index} value={item.label} control={<Radio />} label={item.label} name={item.name} checked={item.status} onChange={radioOnChangeHandler}/>
+                                )
+                            })}
+                        </RadioGroup>
+                </FormControl>
+            </div>
+            <div className={styles.column}>
+                <FormGroup>
+                        <FormLabel id="FlatlockLabel">Распошив элементов:</FormLabel>
+                    {currentOptions.flatlock.map((item, index) => {
 
                         return (
-                            <FormControlLabel key={index} value={item.label} control={<Radio />} name={item.name} label={item.label} onChange={radioOnChangeHandler} checked={item.status}/>
+                            <FormControlLabel
+                                        control={
+                                        <Checkbox name={item.tagName} />
+                                        }
+                                        label={item.label}
+                                        key={index} 
+                                        value={item.label} 
+                                        onChange={checkBoxOnChangeHandler}                      
+                            />
                         )
-                    })}
-                </RadioGroup>
-        </FormControl>
-        <FormControl sx={{width: '33%'}}>
-                <FormLabel id="neckSewingLabel">Обработка горловины:</FormLabel>
-                <RadioGroup
-                    aria-labelledby="neckSewingLabel"
-                    name="neckSewing-buttons-group"
-                >
-                    {currentOptions.neckSewing.map((item, index) => {
-
-                        return (
-                            <FormControlLabel key={index} value={item.label} control={<Radio />} label={item.label} name={item.name} checked={item.status} onChange={radioOnChangeHandler}/>
-                        )
-                    })}
-                </RadioGroup>
-        </FormControl>
-        <FormGroup sx={{width: '33%'}}>
-                <FormLabel id="FlatlockLabel">Распошив элементов:</FormLabel>
-               {currentOptions.flatlock.map((item, index) => {
-
-                return (
-                    <FormControlLabel
-                                control={
-                                <Checkbox name={item.tagName} />
-                                }
-                                label={item.label}
-                                key={index} 
-                                value={item.label} 
-                                onChange={checkBoxOnChangeHandler}                      
-                    />
-                )
-                })}
-        </FormGroup>
+                        })}
+                </FormGroup>
+            </div>
         </div>
         </>
         }

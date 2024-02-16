@@ -66,6 +66,27 @@ const partsOptions = [
             },
         ]
     },
+    {
+        name: 'Свитшот',
+        parts: [
+            {
+                ruName: 'Полочка',
+                engName: 'front'
+            },
+            {
+                ruName: 'Спинка',
+                engName: 'back'
+            },
+            {
+                ruName: 'Левый рукав',
+                engName: 'leftSleeve'
+            },
+            {
+                ruName: 'Правый рукав',
+                engName: 'rightSleeve'
+            },
+        ]
+    },
     
  ];
 
@@ -77,6 +98,18 @@ const partsOptions = [
     {
         ruMethod: 'Прямая печать',
         engMethod: 'DTG'
+    },
+    {
+        ruMethod: 'ДТФ',
+        engMethod: 'DTF'
+    },
+    {
+        ruMethod: 'Термоперенос',
+        engMethod: 'HeatTransfer'
+    },
+    {
+        ruMethod: 'Вышивка',
+        engMethod: 'Embroidery'
     },
  ]
 
@@ -109,33 +142,35 @@ const PartForPrintComponent: React.FC = () => {
     return (
         <>
         <FormControlLabel control={<Switch value={isPrintOnParts} onChange={switchChangeHandler} />} label="Печать в крое" sx={{marginBottom: '50px'}}/>
-        <div className={styles.boxWrapper}>         
-            <FormGroup sx={{width: '33%'}}>
-            {isPrintOnParts && currentOption.parts.map(({ruName, engName}, index) => {
+        <div className={styles.boxWrapper}>     
+            <div className={styles.parts_box}>    
+                <FormGroup>
+                    {isPrintOnParts && currentOption.parts.map(({ruName, engName}, index) => {
 
-                return (                    
-                        <FormControlLabel
-                            control={
-                            <Checkbox name={engName} onChange={checkboxChangeHandler} />
-                            }
-                            label={ruName}
-                            key={index}                            
-                        />          
-                    
-                )
-            })}
-            </FormGroup>
+                        return (                    
+                                <FormControlLabel
+                                    control={
+                                    <Checkbox name={engName} onChange={checkboxChangeHandler} />
+                                    }
+                                    label={ruName}
+                                    key={index}                            
+                                />          
+                            
+                        )
+                    })}
+                </FormGroup>
+            </div>
 
                     <div className={styles.methods_box}>
                     {partsForPrint.map((part, index) => {
 
                         if (part.isForPrint) {
                         return (
-                            <FormControl sx={{width: '50%'}} key={index}>
+                            <FormControl sx={{width: '100%'}} key={index}>
                                 <InputLabel id={part.name}>{part.ruName} - метод печати</InputLabel>
                                 <Select labelId={`${part.name}Label`} id={`${part.name}Method`} name={part.name} label={`${part.ruName} - метод печати`} variant="outlined" required size='small' onChange={selectOnChangeHandler} value={part.method} sx={{padding: '5px'}}>
-                                    {printMethods.map(({engMethod, ruMethod}, index)=>(
-                                        <MenuItem key={index} value={engMethod}>{ruMethod}</MenuItem>
+                                    {printMethods.map(({ruMethod}, index)=>(
+                                        <MenuItem key={index} value={ruMethod}>{ruMethod}</MenuItem>
                                     ))}
                                         
                                     

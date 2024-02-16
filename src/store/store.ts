@@ -3,6 +3,7 @@ import { reducer as tasksReducer } from './first-step/first-step.slice';
 import { reducer as secondStepReducer } from './second-step/second-step.slice';
 import { reducer as stepperReducer } from './stepper/stepper.slice';
 import { reducer as thirdStepReducer } from './third-step/third-step.slice';
+import { reducer as fourthStepReducer } from './fourth-step/fourth-step.slice';
 
 
 //const reducers = combineReducers([tasksReducer, stepperReducer])
@@ -13,7 +14,8 @@ export const store = configureStore({
         firstStep: tasksReducer,
         stepper: stepperReducer,
         secondStep: secondStepReducer,
-        thirdStep: thirdStepReducer
+        thirdStep: thirdStepReducer,
+        fourthStep: fourthStepReducer,
     }
 })
 

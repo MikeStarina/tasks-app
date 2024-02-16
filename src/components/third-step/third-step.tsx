@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { actions as thirdStepActions } from '../../store/third-step/third-step.slice';
 import PrintComp from '../print-comp/print-comp';
 import Button from '@mui/material/Button';
-import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 import { actions as stepperActions } from '../../store/stepper/stepper.slice';
 
@@ -75,8 +74,6 @@ const ThirdStep: React.FC = () => {
                         }}
                         
                     >Далее</Button>
-                    <Link to='/render'>RENDER
-                    </Link>
                 </Box>
         </section>
     )

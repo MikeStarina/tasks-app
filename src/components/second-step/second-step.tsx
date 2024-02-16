@@ -1,7 +1,5 @@
 import React from "react";
 import styles from './second-step.module.css';
-
-//import TextField from '@mui/material/TextField';
 import FabricTypeComponent from "../fabric-type-component/fabric-type-component";
 import Button from '@mui/material/Button';
 import SizesComponent from "../sizes-component/sizes-component";
@@ -12,7 +10,6 @@ import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import TextField from '@mui/material/TextField';
 import { actions as secondStepActions } from "../../store/second-step/second-step.slice";
 import { actions as stepperActions } from "../../store/stepper/stepper.slice";
-import { Link } from "react-router-dom";
 import Box from '@mui/material/Box';
 
 
@@ -78,8 +75,6 @@ const SecondStep: React.FC = () => {
                         }}
                         disabled={!isQtyEqual}
                     >Далее</Button>
-                    <Link to='/render'>RENDER
-                    </Link>
             </Box>
             
             

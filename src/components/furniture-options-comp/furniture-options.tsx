@@ -74,7 +74,7 @@ const FurnitureOptions: React.FC<TProps> = (props) => {
                             }
                             label={item.label}                       
                         />          
-                        {furniture.isCord && <TextField id="cordColor" name='cordColor' label="Цвет шнура" variant="outlined" required={true} size='small' onChange={changeHandler} value={furniture?.cordColor} />}
+                        {furniture.isCord && <TextField sx={{marginTop: '20px'}} id="cordColor" name='cordColor' label="Цвет шнура" variant="outlined" required={true} size='small' onChange={changeHandler} value={furniture?.cordColor} />}
                     
 
                     </FormGroup>
@@ -85,53 +85,56 @@ const FurnitureOptions: React.FC<TProps> = (props) => {
             </div>
             </>
             }
+                <div className={styles.box}>
+                    <div className={styles.column}>
+                        <h4>Бирки /Размерник/:</h4>
+                        
+                                <FormControl>
+                                    <FormLabel id="sizeBadgeLabel">Тип размерника:</FormLabel>
+                                    <RadioGroup
+                                        aria-labelledby="sizeBadgeLabel"
+                                        name="sizeBadge-buttons-group"
+                                    >                    
+                                        {sizeLabel.map((item, index) => (
+                                            <FormControlLabel key={index} id='sizeLabel' value={item.name} control={<Radio id='sizeLabel'/>} name={item.type} label={item.name} onChange={changeHandler} checked={item.status}/>        
+                                        ))}
+                                    </RadioGroup>
+                                </FormControl>                
+                            
+                                <FormControl sx={{width: '100%', marginTop: '20px'}}>
+                                            <InputLabel id="assemblingTypeLabel">Вид притачивания:</InputLabel>
+                                            <Select labelId="assemblingTypeLabel" id="sizeLabelAssemblingType" name='sizeLabelAssemblingType'label='Вид притачивания' variant="outlined" required sx={{width: '220px', padding: '5px'}} size='small' value={furniture.sizeLabelAssembling} onChange={changeHandler}>
+                                                <MenuItem value='Левый боковой шов'>Левый боковой шов</MenuItem>
+                                                <MenuItem value='Правый боковой шов'>Правый боковой шов</MenuItem>
+                                                <MenuItem value='Центр горловины'>Центр горловины</MenuItem>
+                                            </Select>
+                                </FormControl>
+                    </div>
+           
+                    <div className={styles.column}>                    
+                            <h4>Бирки /Составник/:</h4>
+                            <FormControl>
+                                <FormLabel id="containBadgeLabel">Тип составника:</FormLabel>
+                                <RadioGroup
+                                    aria-labelledby="containBadgeLabel"
+                                    name="containBadgeLabel-buttons-group"
+                                >                    
+                                    {containLabel.map((item, index) => (
+                                        <FormControlLabel key={index} id='containLabel' value={item.name} control={<Radio id='containLabel'/>} name={item.type} label={item.name} onChange={changeHandler} checked={item.status}/>        
+                                    ))}
+                                </RadioGroup>
+                            </FormControl>
+                            <FormControl sx={{width: '100%', marginTop: '20px'}}>
+                                        <InputLabel id="assemblingTypeLabel">Вид притачивания:</InputLabel>
+                                        <Select labelId="assemblingTypeLabel" id="containLabelAssemblingType" name='containLabelAssemblingType'label='Вид притачивания' variant="outlined" required sx={{width: '220px', padding: '5px'}} size='small' value={furniture.containLabelAssembling} onChange={changeHandler}>
+                                            <MenuItem value='Левый боковой шов'>Левый боковой шов</MenuItem>
+                                            <MenuItem value='Правый боковой шов'>Правый боковой шов</MenuItem>
+                                            <MenuItem value='Центр горловины'>Центр горловины</MenuItem>
+                                        </Select>
+                            </FormControl>
+                    </div> 
+                </div>
             
-            <div className={styles.wrapper}>
-                <div className={styles.box}>
-                    <h4>Бирки /Размерник/:</h4>
-                    <FormControl>
-                        <FormLabel id="sizeBadgeLabel">Тип размерника:</FormLabel>
-                        <RadioGroup
-                            aria-labelledby="sizeBadgeLabel"
-                            name="sizeBadge-buttons-group"
-                        >                    
-                            {sizeLabel.map((item, index) => (
-                                <FormControlLabel key={index} id='sizeLabel' value={item.name} control={<Radio id='sizeLabel'/>} name={item.type} label={item.name} onChange={changeHandler} checked={item.status}/>        
-                            ))}
-                        </RadioGroup>
-                    </FormControl>
-                    <FormControl sx={{width: '220px'}}>
-                                <InputLabel id="assemblingTypeLabel">Вид притачивания:</InputLabel>
-                                <Select labelId="assemblingTypeLabel" id="sizeLabelAssemblingType" name='sizeLabelAssemblingType'label='Вид притачивания' variant="outlined" required sx={{width: '220px', padding: '5px'}} size='small' value={furniture.sizeLabelAssembling} onChange={changeHandler}>
-                                    <MenuItem value='Левый боковой шов'>Левый боковой шов</MenuItem>
-                                    <MenuItem value='Правый боковой шов'>Правый боковой шов</MenuItem>
-                                    <MenuItem value='Центр горловины'>Центр горловины</MenuItem>
-                                </Select>
-                    </FormControl>
-                </div>
-                <div className={styles.box}>
-                    <h4>Бирки /Составник/:</h4>
-                    <FormControl>
-                        <FormLabel id="containBadgeLabel">Тип составника:</FormLabel>
-                        <RadioGroup
-                            aria-labelledby="containBadgeLabel"
-                            name="containBadgeLabel-buttons-group"
-                        >                    
-                            {containLabel.map((item, index) => (
-                                <FormControlLabel key={index} id='containLabel' value={item.name} control={<Radio id='containLabel'/>} name={item.type} label={item.name} onChange={changeHandler} checked={item.status}/>        
-                            ))}
-                        </RadioGroup>
-                    </FormControl>
-                    <FormControl sx={{width: '220px'}}>
-                                <InputLabel id="assemblingTypeLabel">Вид притачивания:</InputLabel>
-                                <Select labelId="assemblingTypeLabel" id="containLabelAssemblingType" name='containLabelAssemblingType'label='Вид притачивания' variant="outlined" required sx={{width: '220px', padding: '5px'}} size='small' value={furniture.containLabelAssembling} onChange={changeHandler}>
-                                    <MenuItem value='Левый боковой шов'>Левый боковой шов</MenuItem>
-                                    <MenuItem value='Правый боковой шов'>Правый боковой шов</MenuItem>
-                                    <MenuItem value='Центр горловины'>Центр горловины</MenuItem>
-                                </Select>
-                    </FormControl>
-                </div>
-            </div>
         </>
     )
 }

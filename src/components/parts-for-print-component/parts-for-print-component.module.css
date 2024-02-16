@@ -1,13 +1,6 @@
 
 .parts_box {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 20px;
-    box-sizing: border-box;
-    padding: 0;
-    margin: 25px 0;
+    width: calc(100%/3);
 }
 
 .boxWrapper {
@@ -16,16 +9,14 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 100px
 }
 
 .methods_box {
-    width: 100%;
+    width: calc((100%/3)*2);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     gap: 10px;
-    margin: 25px 0;
 }
 
