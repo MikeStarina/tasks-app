@@ -35,10 +35,14 @@ const PrintComp: React.FC<{ index: number}> = ({ index }) => {
     }
 
     const fileUpload = async (e: any) => {
-       
-       const file = await e.target.files[0];
-       const fileURL = URL.createObjectURL(file);
-       dispatch(thirdStepActions.setImages({name: e.target.name, fileLink: fileURL, index}))
+       try {
+            const file = await e.target.files[0];
+            const fileURL = URL.createObjectURL(file);
+            dispatch(thirdStepActions.setImages({name: e.target.name, fileLink: fileURL, index}))
+        }
+        catch(err) {
+            console.log(err)
+        }
     }
 
     const basicInfoChangeHandler = (e: any) => {
@@ -86,7 +90,7 @@ const PrintComp: React.FC<{ index: number}> = ({ index }) => {
                         sx={{alignSelf: 'center'}}
                         >
                         Загрузить
-                        <VisuallyHiddenInput type="file" onChange={fileUpload} name='printPreview'/>
+                        <VisuallyHiddenInput type="file" onChange={fileUpload} name='printPreview' required/>
                     </Button>
                 </div>
                 <div className={styles.params_column}>
@@ -102,7 +106,7 @@ const PrintComp: React.FC<{ index: number}> = ({ index }) => {
                         sx={{alignSelf: 'center'}}
                         >
                         Загрузить
-                        <VisuallyHiddenInput type="file" onChange={fileUpload} name='mockup'/>
+                        <VisuallyHiddenInput type="file" onChange={fileUpload} name='mockup' required/>
                     </Button>
                 </div>
             </div>}

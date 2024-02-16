@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useRef, useState} from 'react'
 import styles from './third-step.module.css';
 import TextField from '@mui/material/TextField';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -21,9 +21,16 @@ import { actions as stepperActions } from '../../store/stepper/stepper.slice';
 const ThirdStep: React.FC = () => {
 
     const { isOrderWithPrint, printQty, prints } = useAppSelector(store => store.thirdStep)
+    const store = useAppSelector(store => store.thirdStep)
     const { activeStep, currentStep } = useAppSelector(store => store.stepper)
+    const [formValidity, setFormValidity] = useState<boolean>(false);
+    const ref = useRef(null);
     const dispatch = useAppDispatch();
     //console.log(prints)
+    useEffect(() => {
+        const form: HTMLFormElement = ref?.current!;
+        setFormValidity(form?.checkValidity());
+    }, [store]);
     const onChangeHandler = (e: any) => {
         const { name } = e.target;
         name === 'isOrderWithPrint' && dispatch(thirdStepActions.setIsOrderWithPrint(e.target.checked))
@@ -38,6 +45,7 @@ const ThirdStep: React.FC = () => {
     return(
         <section className={styles.content}>
                 <Box component="form" 
+                    ref={ref}
                     sx={{
                         width: '100%',
                         display: 'flex',
@@ -72,6 +80,7 @@ const ThirdStep: React.FC = () => {
                             alignSelf: 'center',
                             marginTop: '30px'
                         }}
+                        disabled={!formValidity}
                         
                     >Далее</Button>
                 </Box>

@@ -85,7 +85,7 @@ export const secondStepSlice = createSlice({
         setSizes: (state, { payload }) => {
               state.sizes?.forEach((item) => {
                 if (item.size === payload.size) {
-                    item.qty = payload.qty;
+                    item.qty = payload.qty === '' ? 0 : payload.qty;
                 }
               })
         },
