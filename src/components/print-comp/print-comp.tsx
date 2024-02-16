@@ -34,10 +34,11 @@ const PrintComp: React.FC<{ index: number}> = ({ index }) => {
         dispatch(thirdStepActions.setPrintMethod({ method: e.target.value, index }));
     }
 
-    const fileUpload = (e: any) => {
+    const fileUpload = async (e: any) => {
        
-       
-        dispatch(thirdStepActions.setImages({name: e.target.name, fileLink: URL.createObjectURL(e.target.files[0]), index}))
+       const file = await e.target.files[0];
+       const fileURL = URL.createObjectURL(file);
+       dispatch(thirdStepActions.setImages({name: e.target.name, fileLink: fileURL, index}))
     }
 
     const basicInfoChangeHandler = (e: any) => {
