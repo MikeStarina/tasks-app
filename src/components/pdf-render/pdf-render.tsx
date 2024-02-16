@@ -19,12 +19,16 @@ const Pdfrenderer = () => {
     const { orderNumber, managerName, startDate, dueDate, textileType, textileQty, stepOneName, passport } = useAppSelector(store => store.firstStep)
     const { fabricColor, primaryFabricType, secondaryFabricType, stepTwoName, supplier, sizes, printOnParts, sewingOptions, furniture, sewingComment } = useAppSelector(store => store.secondStep)
     const { stepThreeName, isOrderWithPrint, prints } = useAppSelector(store => store.thirdStep)
+    const { isVTO, isIndividualPack, isStretch, delivery, deliveryData, VTOComments } = useAppSelector(store => store.fourthStep)
 
     const neckClosure = sewingOptions[0].neckClosure.filter((item) => item.status)[0];
     const neckSewing = sewingOptions[0].neckSewing.filter((item) => item.status)[0];
     const flatlock = sewingOptions[0].flatlock.filter((item) => item.status);
 
-    //console.log(prints)
+    const deliveryType = delivery.filter(item => item.status === true)[0];
+    const currentSizeLabel = furniture.sizeLabel.filter(item => item.status === true)[0];
+    const currentContainLabel = furniture.containLabel.filter(item => item.status === true)[0];
+
     Font.register({ family: 'Roboto', src: Roboto });
     const dateFormatter = (date: string) => {
       const dateArray = date.substring(1,11).split('-').reverse();
@@ -52,6 +56,7 @@ const Pdfrenderer = () => {
         orderNumber: {
           fontSize: 20,
           marginBottom: 10,
+          marginTop: 10
         },
         twoColumns: {
             display: 'flex',
@@ -105,14 +110,49 @@ const Pdfrenderer = () => {
         <Document title={orderNumber}>
           <Page size="A4" style={styles.page}>
               <PdfHeader orderNumber={orderNumber} />
+              <Text style={styles.orderNumber}>{stepOneName}</Text>
               <View style={styles.twoColumns}>
                 <View style={styles.columnOne}>
-                    <Text style={styles.orderNumber}>{stepOneName}</Text>
+                    
                     <Text>Заказ №{orderNumber}</Text>   
                     <Text>Менеджер: {managerName}</Text>
                     <Text>Изделия: {textileType}, {textileQty}шт., цвет: {fabricColor}</Text>
+                    <Text>Паспорт модели: {passport}</Text>
                     <Text>Дата начала: {dateFormatter(startDate)}</Text>
                     <Text>Дата готовности: {dateFormatter(dueDate)}</Text>
+                </View>
+              </View>  
+              <Text style={styles.orderNumber}>УПАКОВКА</Text>
+              <View style={styles.twoColumns}>
+                <View style={styles.columnOne}>
+                    
+                    <Text>ВТО: {isVTO ? 'да' : 'нет'}</Text>   
+                    <Text>Индивидуальная упаковка: {isIndividualPack ? 'да' : 'нет'}</Text>   
+                    <Text>Стрейч (для междугородней доставки): {isStretch ? 'да' : 'нет'}</Text>   
+                </View>
+                <View style={styles.columnTwo}>
+                  {VTOComments &&
+                    <>
+                    <Text>Комментарии по упаковке:</Text>
+                    <Text style={{width: '250px', textAlign: 'right', marginTop: '12px'}}>{VTOComments}</Text>
+                    </>
+                  }
+                </View>
+              </View>  
+
+              <Text style={styles.orderNumber}>ДОСТАВКА</Text>
+              <View style={styles.twoColumns}>
+                <View style={styles.columnOne}>
+                    
+                    <Text>Тип доставки: {deliveryType.name}</Text>   
+                </View>
+                <View style={styles.columnTwo}>
+                  {deliveryData &&
+                    <>
+                    <Text>Комментарии по доставке:</Text>
+                    <Text style={{width: '250px', textAlign: 'right', marginTop: '12px', border: '1px solid red'}}>{deliveryData}</Text>
+                    </>
+                  }
                 </View>
               </View>  
         
@@ -172,12 +212,13 @@ const Pdfrenderer = () => {
                 <View style={styles.columnOne}>
 
                   <Text>Фурнитура и бирки:</Text>  
-                  {furniture.isCord && <Text>Шнур, цвет шнура: {furniture.cordColor}</Text>}
-                  {/*<Text>Бирки: {furniture.basicSizeLabel && 'Размерник PNHD'}, {furniture.basicContainLabel && 'Составник PNHD'}</Text> */}
+                  {furniture.cordColor && <Text>Шнур, цвет шнура: {furniture.cordColor}</Text>}
+                  <Text>Размерник: {currentSizeLabel.name}, Втачать: {furniture.sizeLabelAssembling}</Text>
+                  <Text>Составник: {currentContainLabel.name}, Втачать: {furniture.containLabelAssembling}</Text>
                 </View>
               </View>
-              <Text>Комментарии к пошиву:</Text>
-              <Text>{sewingComment}</Text>
+              {sewingComment && <><Text>Комментарии к пошиву:</Text>
+              <Text>{sewingComment}</Text></>}
               <PdfFooter />
           </Page>
           {isOrderWithPrint && prints && prints.map((item, index) => {

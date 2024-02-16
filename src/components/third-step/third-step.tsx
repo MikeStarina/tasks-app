@@ -75,8 +75,6 @@ const ThirdStep: React.FC = () => {
                         }}
                         
                     >Далее</Button>
-                    <Link to='/render'>RENDER
-                    </Link>
                 </Box>
         </section>
     )

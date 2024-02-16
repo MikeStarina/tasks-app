@@ -7,8 +7,14 @@
 
 .wrapper {
     display: flex;
-    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
     width: 100%;
+}
+
+.column {
+    width: calc(100%/3);
+}
+.doubleColumn {
+    width: calc((100%/3)*2);
 }

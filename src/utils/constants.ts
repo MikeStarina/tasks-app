@@ -143,6 +143,65 @@ export const sewingOptions: TSewingOptions = [
         ]
 
     },
+    {
+        name: 'Свитшот',
+        neckClosure: [
+            {
+                tagName: 'tapeManual',
+                label: 'Тесьма',
+                name: 'neckClosure',
+                status: false,
+
+            },
+            {
+                tagName: 'none',
+                label: 'Без закрытия',
+                name: 'neckClosure',
+                status: true,
+            },
+        ],
+        neckSewing: [
+            {
+                tagName: 'flatlock',
+                label: 'Распошив горловины',
+                name: 'neckSewing',
+                status: false,
+            },
+            {
+                tagName: 'singlestich',
+                label: 'Отстрочка горловины',
+                name: 'neckSewing',
+                status: false
+            },
+            {
+                tagName: 'none',
+                label: 'Без обработки',
+                name: 'neckSewing',
+                status: true
+            },
+        ],
+        flatlock: [
+            {
+                tagName: 'armhole',
+                label: 'Распошив пройм',
+                name: 'flatlock',
+                status: false
+            },
+            {
+                tagName: 'cuff',
+                label: 'Распошив манжет',
+                name: 'flatlock',
+                status: false
+            },
+            {
+                tagName: 'belt',
+                label: 'Распошив пояса',
+                name: 'flatlock',
+                status: false
+            },
+        ]
+
+    },
 ]
 
 

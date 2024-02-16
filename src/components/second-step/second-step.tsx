@@ -78,8 +78,6 @@ const SecondStep: React.FC = () => {
                         }}
                         disabled={!isQtyEqual}
                     >Далее</Button>
-                    <Link to='/render'>RENDER
-                    </Link>
             </Box>
             
             

@@ -2,5 +2,9 @@
     display: flex;
     justify-content: flex-start;
     align-items: flex-start;
-    gap: 25px;
+    width: 100%;
+}
+
+.column {
+    width: calc(100%/3);
 }
