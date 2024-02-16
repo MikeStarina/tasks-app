@@ -12,7 +12,7 @@ const SizesComponent: React.FC = () => {
 
     const [ realQty, setRealQty ] = useState<number>(0);
 
-    const { sizes, fabricColor } = useAppSelector(store => store.secondStep);
+    const { sizes, fabricColor, isQtyEqual } = useAppSelector(store => store.secondStep);
     const { textileQty } = useAppSelector(store => store.firstStep);
     const dispatch = useAppDispatch();
 
@@ -27,7 +27,7 @@ const SizesComponent: React.FC = () => {
     const onChangeHandler = (e: any) => {
 
         if (e.target.name === 'fabricColor') dispatch(secondStepActions.setFabricColor(e.target.value));
-        else dispatch(secondStepActions.setSizes({ size: e.target.name, qty: parseInt(e.target.value)}));
+        else dispatch(secondStepActions.setSizes({ size: e.target.name, qty: e.target.value}));
     }
 
 
@@ -54,11 +54,11 @@ const SizesComponent: React.FC = () => {
 
                     return (
                         <div className={styles.size_block} key={index}>
-                            <TextField variant='standard' id={size} name={size} value={qty} onChange={onChangeHandler} required/>
+                            <TextField variant='standard' id={size} name={size} value={qty} onChange={onChangeHandler} required inputProps={{ pattern: "[0-9]{1,9999}" }}/>
                         </div>
                     )
                 })}
-                <div className={styles.size_block}>{realQty}/{textileQty}</div>
+                <div className={isQtyEqual ? styles.size_block : styles.size_block_invalid}>{realQty}/{textileQty}</div>
             </div>
         </div>
     )

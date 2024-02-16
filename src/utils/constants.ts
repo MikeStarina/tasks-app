@@ -250,3 +250,14 @@ export const printParams: Array<TPrintParams> = [
         
     },
 ]
+
+
+
+
+export const validityChecker = (e: any, validity: any, setValidity: any) => {
+    const stringObj = e.target.toString();
+    setValidity({
+        ...validity,
+        [e.target.id]: stringObj.includes('Input') ? e.target.checkValidity() : e.target.value !== '' ? false : true,
+    })
+}

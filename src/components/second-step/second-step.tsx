@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styles from './second-step.module.css';
 import FabricTypeComponent from "../fabric-type-component/fabric-type-component";
 import Button from '@mui/material/Button';
@@ -22,64 +22,73 @@ const SecondStep: React.FC = () => {
     const { activeStep, currentStep } = useAppSelector(store => store.stepper);
     const { textileType } = useAppSelector(store => store.firstStep);
     const { isQtyEqual, sewingComment } = useAppSelector(store => store.secondStep);
+    const store = useAppSelector(store => store.secondStep);
+    const [formValidity, setFormValidity] = useState<boolean>(false);
 
+    const ref = useRef(null)
     const dispatch = useAppDispatch();
 
     const commentsHandler = (e: any) => {
         dispatch(secondStepActions.setSewingComment(e.target.value));
     }
-    
+
     const submitHandler = (e: any) => {
         e.preventDefault();
         const newCurrentStep = activeStep === currentStep ? currentStep + 1 : currentStep;
         dispatch(stepperActions.changeCurrentStep(newCurrentStep))
     }
-    
+
+    useEffect(() => {
+        const form: HTMLFormElement = ref?.current!;
+        setFormValidity(form?.checkValidity());
+    }, [store]);
+
 
     return (
         <section className={styles.content}>
- 
+
             <Box component="form"
                 onSubmit={submitHandler}
+                ref={ref}
                 sx={{
                     width: '100%',
                     display: 'flex',
                     flexDirection: 'column',
                     gap: '20px',
                 }}
-                >
-                    
-                    <FabricTypeComponent />
-                    <SizesComponent />
-                    <div className={styles.wrapper}>
-                        <PartForPrintComponent />
-                    </div>                
-                    <SewingOptions textileType={textileType} />
-                    <FurnitureOptions textileType={textileType} />
-                    <h3>Комментарии</h3>
-                    <TextField
-                        id="sewingComments"
-                        label="Комментарии к пошиву"
-                        multiline
-                        rows={6}
-                        onChange={commentsHandler}
-                        value={sewingComment}
-                    />
+            >
 
-                    
-                    <Button variant="contained" type='submit'
-                        sx={{
-                            width: '200px',
-                            alignSelf: 'center',
-                            marginTop: '30px'
-                        }}
-                        disabled={!isQtyEqual}
-                    >Далее</Button>
+                <FabricTypeComponent />
+                <SizesComponent />
+                <div className={styles.wrapper}>
+                    <PartForPrintComponent />
+                </div>
+                <SewingOptions textileType={textileType} />
+                <FurnitureOptions textileType={textileType} />
+                <h3>Комментарии</h3>
+                <TextField
+                    id="sewingComments"
+                    label="Комментарии к пошиву"
+                    multiline
+                    rows={6}
+                    onChange={commentsHandler}
+                    value={sewingComment}
+                />
+
+
+                <Button variant="contained" type='submit'
+                    sx={{
+                        width: '200px',
+                        alignSelf: 'center',
+                        marginTop: '30px'
+                    }}
+                    disabled={!isQtyEqual || !formValidity}
+                >Далее</Button>
             </Box>
-            
-            
+
+
         </section>
     )
-} 
+}
 
 export default SecondStep;

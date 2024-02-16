@@ -39,3 +39,14 @@
     padding: 0 10px;
     border-left: .5px solid gray;
 }
+.size_block_invalid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    min-width: 30px;
+    width: 100%;
+    padding: 0 10px;
+    border-left: .5px solid gray;
+    color: red;
+}

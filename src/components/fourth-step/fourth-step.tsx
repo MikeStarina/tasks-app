@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styles from './fourth-step.module.css';
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import Button from '@mui/material/Button';
@@ -22,7 +22,14 @@ import FormControl from '@mui/material/FormControl';
 const FourthStep: React.FC = () => {
     const dispatch = useAppDispatch();
     const { isVTO, isIndividualPack, isStretch, VTOComments, delivery, deliveryData } = useAppSelector(store => store.fourthStep)
+    const store = useAppSelector(store => store.fourthStep)
     const currentDeliveryType = delivery.filter(item => item.status === true)[0];
+    const [formValidity, setFormValidity] = useState<boolean>(false);
+    const ref = useRef(null);
+    useEffect(() => {
+        const form: HTMLFormElement = ref?.current!;
+        setFormValidity(form?.checkValidity());
+    }, [store]);
     const navigate = useNavigate();
     const onChangeHandler = (e: any) => {
         const value = e.target.name === 'VTOComments' || 'DeliveryComments' ? e.target.value : e.target.checked;
@@ -41,6 +48,7 @@ const FourthStep: React.FC = () => {
     return(
         <section className={styles.content}>
                 <Box component="form" 
+                    ref={ref}
                     sx={{
                         width: '100%',
                         display: 'flex',
@@ -107,6 +115,7 @@ const FourthStep: React.FC = () => {
                             alignSelf: 'center',
                             marginTop: '30px'
                         }}
+                        disabled={!formValidity}
                         
                     >Сформировать</Button>
                 </Box>
