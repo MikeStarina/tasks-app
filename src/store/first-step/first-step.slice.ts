@@ -19,8 +19,8 @@ const initialState: IFirstStep = {
     managerName: '',
     startDate: JSON.stringify(dayjs().locale("de")),
     dueDate: JSON.stringify(dayjs().locale("de").add(30, 'day')),
-    textileType: 'Худи',
-    textileQty: '70',
+    textileType: '',
+    textileQty: '',
     passport: '',
 };
 
