@@ -1,10 +1,10 @@
 import React, { useEffect, useState, useRef } from "react";
-import { validityChecker } from "../../utils/constants";
+//import { validityChecker } from "../../utils/constants";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import Select from "@mui/material/Select";
+//import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-import InputLabel from "@mui/material/InputLabel";
+//import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -33,15 +33,16 @@ const FirstStep: React.FC = () => {
     const { activeStep, currentStep } = useAppSelector((store) => store.stepper);
     const dispatch = useAppDispatch();
     const [formValidity, setFormValidity] = useState<boolean>(false);
-    const [validity, setValidity] = useState<{ [n: string]: boolean }>({});
     const ref = useRef(null);
+    
     useEffect(() => {
         const form: HTMLFormElement = ref?.current!;
         setFormValidity(form?.checkValidity());
-    }, [store]);
+    }, [store]); 
 
     const textInputsChangeHandler = (e: any) => {
-        validityChecker(e, validity, setValidity);
+
+        
         e.target.name === "orderNumber" &&
             dispatch(firstStepActions.addOrderNumber(e.target.value));
         e.target.name === "textileQty" &&
@@ -91,9 +92,6 @@ const FirstStep: React.FC = () => {
                 }}
             >
                 <TextField
-                    error={
-                        validity.orderNumber !== undefined ? !validity.orderNumber : false
-                    }
                     id="orderNumber"
                     name="orderNumber"
                     label="Номер заказа"
@@ -102,12 +100,9 @@ const FirstStep: React.FC = () => {
                     onChange={textInputsChangeHandler}
                     required={true}
                     inputProps={{ pattern: "[0-9]{5,5}" }}
-                    onFocus={(e) => validityChecker(e, validity, setValidity)}
+                    placeholder='Введите пятизначный номер заказа'
                 />
                 <TextField
-                    error={
-                        validity.managerName !== undefined ? !validity.managerName : false
-                    }
                     id="managerName"
                     name="managerName"
                     label="Менеджер"
@@ -115,8 +110,8 @@ const FirstStep: React.FC = () => {
                     value={managerName}
                     onChange={textInputsChangeHandler}
                     required={true}
-                    inputProps={{ minLength: "3" }}
-                    onFocus={(e) => validityChecker(e, validity, setValidity)}
+                    inputProps={{ minLength: "5" }}
+                    placeholder='Введите ФИО менеджера заказа'
                 />
                 <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
                     <DatePicker
@@ -137,6 +132,7 @@ const FirstStep: React.FC = () => {
                     />
                 </LocalizationProvider>
                 <FormControl>
+                    {/*
                     <InputLabel
                         id="textileLabel"
                         required={true}
@@ -146,31 +142,25 @@ const FirstStep: React.FC = () => {
                     >
                         Вид изделий
                     </InputLabel>
+                    */}
                     {/*Сделать валидацию для этой параши ниже*/}
-                    <Select
-                        error={
-                            validity.textileType !== undefined ? !validity.textileType : false
-                        }
-                        labelId="textileLabel"
+                    <TextField
+                        select
                         id="textileType"
                         name="textileType"
                         label="Вид изделий"
                         variant="outlined"
                         value={textileType}
                         required={true}
-                        onChange={textInputsChangeHandler}
+                        onChange={textInputsChangeHandler} 
+                        placeholder='Выберите тип изделий'       
                     >
                         <MenuItem value="Футболка">Футболка</MenuItem>
                         <MenuItem value="Худи">Худи</MenuItem>
                         <MenuItem value="Свитшот">Свитшот</MenuItem>
-                    </Select>
+                    </TextField>
                 </FormControl>
                 <TextField
-                    error={
-                        validity.modelPassport !== undefined
-                            ? !validity.modelPassport
-                            : false
-                    }
                     id="modelPassport"
                     name="modelPassport"
                     label="Паспорт модели"
@@ -179,12 +169,9 @@ const FirstStep: React.FC = () => {
                     onChange={textInputsChangeHandler}
                     required={true}
                     inputProps={{ minLength: "1" }}
-                    onFocus={(e) => validityChecker(e, validity, setValidity)}
+                    placeholder='Введите паспорт модели'
                 />
                 <TextField
-                    error={
-                        validity.textileQty !== undefined ? !validity.textileQty : false
-                    }
                     id="textileQty"
                     name="textileQty"
                     label="Количество"
@@ -193,7 +180,7 @@ const FirstStep: React.FC = () => {
                     onChange={textInputsChangeHandler}
                     required={true}
                     inputProps={{ pattern: "[0-9]{1,9999}", minLength: "1" }}
-                    onFocus={(e) => validityChecker(e, validity, setValidity)}
+                    placeholder='Введите количество изделий (только цифры)'
                 />
                 <Button
                     variant="contained"
