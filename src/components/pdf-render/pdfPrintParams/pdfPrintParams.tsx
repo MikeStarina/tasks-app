@@ -4,7 +4,6 @@ import { Text } from '@react-pdf/renderer';
 const PdfPrintParams: React.FC<any> = ({item}) => {
     const { params, method } = item;
     
-    console.log(params)
     return (
         <>
         {method === 'Шелкография' &&

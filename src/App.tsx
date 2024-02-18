@@ -17,10 +17,10 @@ function App () {
           <Route 
             path='/'
             element={
-              <>
+              <section className={styles.screen}>
                 <StepperComponent />
                 <MainScreen />
-              </>
+              </section>
             }          
           />
           <Route

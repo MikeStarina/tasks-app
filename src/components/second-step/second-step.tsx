@@ -60,6 +60,7 @@ const SecondStep: React.FC = () => {
 
                 <FabricTypeComponent />
                 <SizesComponent />
+                
                 <div className={styles.wrapper}>
                     <PartForPrintComponent />
                 </div>

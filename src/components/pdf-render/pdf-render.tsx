@@ -270,7 +270,7 @@ const Pdfrenderer = () => {
       );
 
     return (
-        <PDFViewer style={{ width: '100%', minHeight: '100vh'}}>
+        <PDFViewer style={{ width: '100%', minHeight: '100vh', maxHeight: '100vh'}}>
             <MyDocument />
         </PDFViewer>
     )
