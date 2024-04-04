@@ -41,6 +41,8 @@ export const fourthStepSlice = createSlice({
         resetState: () => {
             return initialState
         },
+
+        //@ts-ignore
         restoreState: (state, action) => {
             return action.payload;
         }

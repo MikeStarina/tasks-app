@@ -95,6 +95,7 @@ export const ThirdStepSlice = createSlice({
         resetState: () => {
             return initialState
         },
+        //@ts-ignore
         restoreState: (state, action) => {
             return action.payload;
         },

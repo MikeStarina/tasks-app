@@ -1,5 +1,5 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { TLoginResponse, TUser } from "../../utils/types";
+import { TUser } from "../../utils/types";
 
 interface IInitialState {
     loginFormData: {

@@ -14,7 +14,7 @@ import { useNavigate } from "react-router-dom";
 const LoginPage: React.FC = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
-    const { loginFormData, isAuthenticated, userToken } = useAppSelector(store => store.auth);
+    const { loginFormData, userToken } = useAppSelector(store => store.auth);
     const [ login, { isSuccess, data: userData} ] = useLoginMutation();
 
     useEffect(() => {
