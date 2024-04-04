@@ -4,14 +4,14 @@ import { initialPrintState } from "../../utils/constants";
 import { printParams } from "../../utils/constants";
 
 
-interface IInitialState {
+export interface IThirdStep {
     stepThreeName: string,
     isOrderWithPrint: boolean,
     printQty: string,
     prints?: Array<IPrint>,
 }
 
-const initialState: IInitialState = {
+const initialState: IThirdStep = {
     stepThreeName: 'Печать',
     isOrderWithPrint: true,
     printQty: '',
@@ -28,9 +28,17 @@ export const ThirdStepSlice = createSlice({
             }
         },
         setPrintQty: (state, { payload }) => {
-            state.printQty = payload;
+            const { value, sizes } = payload;
+            state.printQty = value;
             state.prints = [];
-            for (let i = 0; i < parseInt(payload); i++) {
+            const printSizes = sizes.map((size: any) => {
+                return {
+                    ...size,
+                    printQty: '',
+                }
+            })
+            initialPrintState.sizes = printSizes;
+            for (let i = 0; i < parseInt(value); i++) {
                 state.prints.push(initialPrintState);
             }
         },
@@ -60,8 +68,8 @@ export const ThirdStepSlice = createSlice({
         },
         setPrintSizes: (state, { payload }) => {
             const { value, index, size } = payload;
-            state.prints![index].sizes.forEach((item) => {
-                if (item.size === size) item.qty = value;
+            state.prints![index].sizes!.forEach((item) => {
+                if (item.size === size) item.printQty = value;
             });
             
         },
@@ -83,6 +91,12 @@ export const ThirdStepSlice = createSlice({
                 state.prints![payload.index].mockup = payload.fileLink
                 //state.prints![payload.index].blobMockup = payload.data
             };
+        },
+        resetState: () => {
+            return initialState
+        },
+        restoreState: (state, action) => {
+            return action.payload;
         },
     },
 });

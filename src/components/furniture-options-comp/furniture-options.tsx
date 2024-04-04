@@ -51,6 +51,8 @@ const FurnitureOptions: React.FC<TProps> = (props) => {
 
 
     const changeHandler = (e: any) => {
+
+        e.target.id === 'isCord' && dispatch(secondStepActions.setIsCord());
         e.target.name === 'cordColor' && dispatch(secondStepActions.setFurniture({name: e.target.name, value: e.target.value}))
         e.target.id === 'sizeLabel' && dispatch(secondStepActions.setLabels({id: e.target.id, name: e.target.name }))
         e.target.id === 'containLabel' && dispatch(secondStepActions.setLabels({id: e.target.id, name: e.target.name }))
@@ -70,11 +72,11 @@ const FurnitureOptions: React.FC<TProps> = (props) => {
                 
                         <FormControlLabel
                             control={
-                            <Checkbox name={item.tagName} onChange={changeHandler} checked={furniture.isCord}/>
+                            <Checkbox name={item.tagName} id='isCord' onChange={changeHandler} checked={furniture.isCord}/>
                             }
                             label={item.label}                       
                         />          
-                        {furniture.isCord && <TextField sx={{marginTop: '20px'}} id="cordColor" name='cordColor' label="Цвет шнура" variant="outlined" required={true} size='small' onChange={changeHandler} value={furniture?.cordColor} />}
+                        {furniture.isCord && <TextField sx={{marginTop: '20px'}} id="cordColor" name='cordColor' label="Цвет шнура" variant="outlined" required={furniture.isCord} size='small' onChange={changeHandler} value={furniture?.cordColor} />}
                     
 
                     </FormGroup>

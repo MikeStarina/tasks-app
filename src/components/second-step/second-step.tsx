@@ -4,7 +4,7 @@ import FabricTypeComponent from "../fabric-type-component/fabric-type-component"
 import Button from '@mui/material/Button';
 import SizesComponent from "../sizes-component/sizes-component";
 import PartForPrintComponent from "../parts-for-print-component/parts-for-print-component";
-import SewingOptions from "../sewing-options-comp/sewing-options";
+//import SewingOptions from "../sewing-options-comp/sewing-options";
 import FurnitureOptions from "../furniture-options-comp/furniture-options";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import TextField from '@mui/material/TextField';
@@ -20,9 +20,9 @@ import Box from '@mui/material/Box';
 const SecondStep: React.FC = () => {
 
     const { activeStep, currentStep } = useAppSelector(store => store.stepper);
-    const { textileType } = useAppSelector(store => store.firstStep);
+    const { textileType, orderType } = useAppSelector(store => store.firstStep);
     const { isQtyEqual, sewingComment } = useAppSelector(store => store.secondStep);
-    const store = useAppSelector(store => store.secondStep);
+    const secondStep = useAppSelector(store => store.secondStep);
     const [formValidity, setFormValidity] = useState<boolean>(false);
 
     const ref = useRef(null)
@@ -34,14 +34,18 @@ const SecondStep: React.FC = () => {
 
     const submitHandler = (e: any) => {
         e.preventDefault();
-        const newCurrentStep = activeStep === currentStep ? currentStep + 1 : currentStep;
-        dispatch(stepperActions.changeCurrentStep(newCurrentStep))
+        if (orderType === 'new') {
+            const newCurrentStep = activeStep === currentStep ? currentStep + 1 : currentStep;
+            dispatch(stepperActions.changeCurrentStep(newCurrentStep))
+        } else {
+            dispatch(stepperActions.changeCurrentStep(3))
+        }
     }
 
     useEffect(() => {
         const form: HTMLFormElement = ref?.current!;
         setFormValidity(form?.checkValidity());
-    }, [store]);
+    }, [secondStep]);
 
 
     return (
@@ -64,7 +68,7 @@ const SecondStep: React.FC = () => {
                 <div className={styles.wrapper}>
                     <PartForPrintComponent />
                 </div>
-                <SewingOptions textileType={textileType} />
+                {/* <SewingOptions textileType={textileType} /> */}
                 <FurnitureOptions textileType={textileType} />
                 <h3>Комментарии</h3>
                 <TextField

@@ -6,17 +6,21 @@ import FormControl from "@mui/material/FormControl";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { actions as secondStepActions } from "../../store/second-step/second-step.slice";
 import TextField from "@mui/material/TextField";
+import { useGetSuppliersQuery } from "../../api/api";
+
+
 
 const FabricTypeComponent: React.FC = () => {
     const { supplier, primaryFabricType, secondaryFabricType } = useAppSelector(
         (store) => store.secondStep
     );
+    const { userToken } = useAppSelector(store => store.auth);
+    const { data: suppliersData } = useGetSuppliersQuery(userToken);
 
     const dispatch = useAppDispatch();
 
     const onChangeHandler = (e: any) => {
-        //console.log(e.target.name);
-        //console.log(e.target.value);
+
         e.target.name === "supplier" &&
             dispatch(secondStepActions.setSupplier(e.target.value));
         e.target.name === "primaryFabric" &&
@@ -27,33 +31,19 @@ const FabricTypeComponent: React.FC = () => {
 
     return (
         <>
-            <FormControl>
-                <InputLabel id="textileSupplierLabel" required>
-                    Поставщик ткани
-                </InputLabel>
-                <Select
-                    labelId="textileSupplierLabel"
-                    id="supplier"
-                    name="supplier"
-                    label="Поставщик ткани"
-                    variant="outlined"
-                    onChange={onChangeHandler}
-                    value={supplier}
-                    required
-                >
-                    <MenuItem value="Медас">Медас</MenuItem>
-                    <MenuItem value="Коттон пром">Коттон пром</MenuItem>
-                </Select>
-            </FormControl>
-            {/* 
-                    <FormControl>
-                        <InputLabel id="primaryFabricLabel">Основное полотно</InputLabel>
-                        <Select labelId="primaryFabricLabel" id="primaryFabric" name='primaryFabric'label='Основное полотно' variant="outlined" onChange={onChangeHandler} value={primaryFabricType} required>
-                            <MenuItem value='Кулирка'>Кулирка</MenuItem>
-                            <MenuItem value='Футер'>Футер</MenuItem>
-                        </Select>
-                    </FormControl>
-                    */}
+            {suppliersData && <TextField
+                select
+                name="supplier"
+                label='Поставщик ткани'
+                placeholder='Выберите поставщика ткани'
+                onChange={onChangeHandler}
+                value={supplier}
+            >
+                {suppliersData.data.map((item => (
+                    <MenuItem value={item.attributes.name} key={item.id}>{item.attributes.name}</MenuItem>
+                )))}
+            </TextField>
+            }
             <TextField
                 id="primaryFabric"
                 name="primaryFabric"
@@ -78,6 +68,7 @@ const FabricTypeComponent: React.FC = () => {
                 >
                     <MenuItem value="Рибана">Рибана</MenuItem>
                     <MenuItem value="Кашкорс">Кашкорс</MenuItem>
+                    <MenuItem value="Кашкорс">Основное полотно</MenuItem>
                 </Select>
             </FormControl>
         </>

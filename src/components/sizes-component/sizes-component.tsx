@@ -7,9 +7,10 @@ import { actions as secondStepActions } from "../../store/second-step/second-ste
 const SizesComponent: React.FC = () => {
     const [realQty, setRealQty] = useState<number>(0);
 
-    const { sizes, fabricColor, isQtyEqual } = useAppSelector(
+    const { fabricColor, isQtyEqual, sizes } = useAppSelector(
         (store) => store.secondStep
     );
+    //console.log(sizes);
     const { textileQty } = useAppSelector((store) => store.firstStep);
     const dispatch = useAppDispatch();
 

@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { sewingOptions, TSewingOptions } from "../../utils/constants";
 
 
-interface ISecondStep {
+export interface ISecondStep {
     stepTwoName: string;
     supplier: string;
     primaryFabricType: string;
@@ -11,8 +11,8 @@ interface ISecondStep {
         {
             size: string;
             qty: string;
-        }
-    >;
+        } 
+    > | undefined;
     fabricColor: string;
     isQtyEqual: boolean;
     printOnParts: {
@@ -36,7 +36,7 @@ const initialState: ISecondStep = {
     supplier: '',
     primaryFabricType: '',
     secondaryFabricType: '',
-    sizes: [{ size: 'XS', qty: ''}, { size: 'S', qty: ''}, { size: 'M', qty: ''}, { size: 'L', qty: ''}, { size: 'XL', qty: ''}, { size: 'XXL', qty: ''}, { size: 'XXXL', qty: ''}],
+    sizes: [],
     fabricColor: '',
     isQtyEqual: false,
     printOnParts: {
@@ -82,10 +82,24 @@ export const secondStepSlice = createSlice({
         setQtyEquality: (state, { payload }) => {
               state.isQtyEqual = payload;
         },        
+        resetSizes: (state) => {
+            state.sizes = undefined;
+        },
+        setInitialSizes: (state, action) => {
+            state.sizes = [];
+            action.payload.forEach((item: any) => {
+                const sizeObj = {
+                    size: item.attributes.name,
+                    qty: ''
+                }
+                
+                state.sizes!.push(sizeObj);
+            })
+        },
         setSizes: (state, { payload }) => {
               state.sizes?.forEach((item) => {
-                if (item.size === payload.size) {
-                    item.qty = payload.qty === '' ? 0 : payload.qty;
+                if (item?.size === payload.size) {
+                    item!.qty = payload.qty === '' ? 0 : payload.qty;
                 }
               })
         },
@@ -163,6 +177,21 @@ export const secondStepSlice = createSlice({
             const { id, value } = payload;    
             if (id === 'sizeLabelAssemblingType') state.furniture.sizeLabelAssembling = value;
             if (id === 'containLabelAssemblingType') state.furniture.containLabelAssembling = value;
+        },
+        setIsCord: (state) => {
+            return {
+                ...state,
+                furniture: {
+                    ...state.furniture,
+                    isCord: !state.furniture.isCord,
+                }
+            }
+        },
+        resetState: () => {
+            return initialState
+        },
+        restoreState: (state, action) => {
+            return action.payload;
         }
 }});
 
