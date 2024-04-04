@@ -6,22 +6,25 @@ import { Text, View, StyleSheet } from '@react-pdf/renderer';
 
 
 type TProps = {
-    sizes: Array<
+    sizes?: Array<
     {
         size: string;
         qty: string;
+        printQty?: string;
     }
 >,
     textileQty: string,
-    fabricColor: string
+    fabricColor: string,
+    type: 'mainTable' | 'printTable',
 }
 
 
 
-const SizesTable: React.FC<TProps> = ({sizes, textileQty, fabricColor}) => {
+const SizesTable: React.FC<TProps> = ({sizes, textileQty, fabricColor, type}) => {
 
-    
-    const sum = sizes?.reduce((acc, { qty }) => qty === '0' || qty === '' ? acc : acc + parseInt(qty), 0)
+    //console.log(sizes);
+    const sum = type === 'mainTable' ? sizes?.reduce((acc, { qty }) => qty === '0' || qty === '' ? acc : acc + parseInt(qty), 0)
+    : sizes?.reduce((acc, { printQty }) => printQty === '0' || printQty === '' ? acc : acc + parseInt(printQty!), 0)
     const styles = StyleSheet.create({       
 
        
@@ -61,10 +64,10 @@ const SizesTable: React.FC<TProps> = ({sizes, textileQty, fabricColor}) => {
                           <View style={{width: '100px', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
                             <Text>{fabricColor}</Text>
                           </View>
-                          {sizes!.map(({qty}, index) => (
+                          {sizes!.map(({qty, printQty}, index) => (
       
                             <View key={index} style={{minWidth: '40px', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: '1px solid black'}}>
-                                <Text>{qty}</Text>
+                                <Text>{type === 'mainTable' ? qty : printQty}</Text>
                             </View>
                           ))}
                           <View style={{minWidth: '40px', height: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', borderLeft: '1px solid black'}}>

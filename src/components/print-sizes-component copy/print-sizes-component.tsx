@@ -21,7 +21,7 @@ const PrintSizesComponent: React.FC<TProps> = ({ currentPrint, index }) => {
     const dispatch = useAppDispatch();
 
     useEffect(() => {
-        const sum = sizes?.reduce((acc, { qty }) => qty === '0' || qty === '' ? acc : acc + parseInt(qty), 0)        
+        const sum = sizes?.reduce((acc, { printQty }) => printQty === '0' || printQty === '' ? acc : acc + parseInt(printQty!), 0)        
         setRealQty(sum!); 
     }, [sizes])
 
@@ -37,11 +37,11 @@ const PrintSizesComponent: React.FC<TProps> = ({ currentPrint, index }) => {
         <div className={styles.table}>
             <div className={styles.table_row}>
                 <div className={styles.main_header_block}> ЦВЕТ / РАЗМЕР</div>
-                {currentPrint.sizes.map(({ size }, index) => {
+                {currentPrint.sizes?.map((item, index) => {
 
                     return (
                         <div key={index} className={styles.size_block}>
-                            {size}
+                            {item.size}{` (${item.qty} шт.)`}
                         </div>    
                     )
                 })}
@@ -52,11 +52,11 @@ const PrintSizesComponent: React.FC<TProps> = ({ currentPrint, index }) => {
                 <div className={styles.main_header_block}>
                     {fabricColor}
                 </div>
-                {currentPrint.sizes.map(({ size, qty }, index) => {
+                {currentPrint.sizes?.map(({ size, printQty }, index) => {
 
                     return (
                         <div className={styles.size_block} key={index}>
-                            <TextField variant='standard' id={size} name={size} value={qty} onChange={onChangeHandler} required/>
+                            <TextField variant='standard' id={size} name={size} value={printQty} onChange={onChangeHandler} required/>
                         </div>
                     )
                 })}

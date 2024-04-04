@@ -13,9 +13,14 @@ import { actions as stepperActions } from "../../store/stepper/stepper.slice";
 
 const ThirdStep: React.FC = () => {
     const { isOrderWithPrint, printQty, prints } = useAppSelector(
-        (store) => store.thirdStep
+        store => store.thirdStep
     );
-    const store = useAppSelector((store) => store.thirdStep);
+    const thirdStep = useAppSelector(
+        store => store.thirdStep
+    );
+    console.log(thirdStep);
+    const { sizes } = useAppSelector((store) => store.secondStep);
+    const { orderType } = useAppSelector((store) => store.firstStep);
     const { activeStep, currentStep } = useAppSelector((store) => store.stepper);
     const [formValidity, setFormValidity] = useState<boolean>(false);
     const ref = useRef(null);
@@ -23,20 +28,31 @@ const ThirdStep: React.FC = () => {
     //console.log(prints)
     useEffect(() => {
         const form: HTMLFormElement = ref?.current!;
-        setFormValidity(form?.checkValidity());
-    }, [store]);
+
+        if (orderType === 'new') {
+            console.log(form?.checkValidity());
+            setFormValidity(form?.checkValidity());
+        } else {
+
+        }
+        
+    }, [thirdStep]);
     const onChangeHandler = (e: any) => {
         const { name } = e.target;
         name === "isOrderWithPrint" &&
             dispatch(thirdStepActions.setIsOrderWithPrint(e.target.checked));
         name === "printQty" &&
-            dispatch(thirdStepActions.setPrintQty(e.target.value));
+            dispatch(thirdStepActions.setPrintQty({value: e.target.value, sizes }));
     };
     const submitHandler = (e: any) => {
         e.preventDefault();
-        const newCurrentStep =
+        if (orderType === 'new') {
+            const newCurrentStep =
             activeStep === currentStep ? currentStep + 1 : currentStep;
-        dispatch(stepperActions.changeCurrentStep(newCurrentStep));
+            dispatch(stepperActions.changeCurrentStep(newCurrentStep));
+        } else {
+            dispatch(stepperActions.changeCurrentStep(4));
+        }
     };
 
     return (
@@ -87,7 +103,7 @@ const ThirdStep: React.FC = () => {
                         alignSelf: "center",
                         marginTop: "30px",
                     }}
-                    disabled={!formValidity}
+                    disabled={orderType === 'new' ? !formValidity : false}
                 >
                     Далее
                 </Button>

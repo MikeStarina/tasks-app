@@ -13,16 +13,38 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/material/styles";
 import PrintSizesComponent from "../print-sizes-component copy/print-sizes-component";
+import { usePreviewUploadMutation, useMockupUploadMutation } from "../../api/api";
+import { API_BASE_URL } from "../../utils/constants";
 
 const printMethods = ["Шелкография", "DTF", "DTG", "Термоперенос", "Вышивка"];
 
 const PrintComp: React.FC<{ index: number }> = ({ index }) => {
     const { prints } = useAppSelector((store) => store.thirdStep);
+    const { userToken } = useAppSelector((store) => store.auth);
     const dispatch = useAppDispatch();
-
+    const [ previewUpload, { data: previewFileData } ] = usePreviewUploadMutation();
+    if (previewFileData) {
+        dispatch(
+            thirdStepActions.setImages({
+                name: 'printPreview',
+                fileLink: `${API_BASE_URL}${previewFileData[0].url}`,
+                index,
+            })
+        );
+    }
+   
+    const [ mockupUpload, { data: mockupFileData } ] = useMockupUploadMutation();
+    if (mockupFileData) {
+        dispatch(
+            thirdStepActions.setImages({
+                name: 'mockup',
+                fileLink: `${API_BASE_URL}${mockupFileData[0].url}`,
+                index,
+            })
+        );
+    }
     const printNumber = index + 1;
     const currentPrint = prints![index];
-    //console.log(currentPrint);
 
     const onChangeHandler = (e: any) => {
         dispatch(
@@ -33,14 +55,12 @@ const PrintComp: React.FC<{ index: number }> = ({ index }) => {
     const fileUpload = async (e: any) => {
         try {
             const file = await e.target.files[0];
-            const fileURL = URL.createObjectURL(file);
-            dispatch(
-                thirdStepActions.setImages({
-                    name: e.target.name,
-                    fileLink: fileURL,
-                    index,
-                })
-            );
+            const data = new FormData()
+            //const fileURL = URL.createObjectURL(file);
+            data.append('files', file)
+            data.append('filetype', e.target.name)
+            e.target.name === 'printPreview' && previewUpload({userToken, file: data});
+            e.target.name === 'mockup' && mockupUpload({userToken, file: data});
         } catch (err) {
             console.log(err);
         }
@@ -166,7 +186,7 @@ const PrintComp: React.FC<{ index: number }> = ({ index }) => {
                                 type="file"
                                 onChange={fileUpload}
                                 name="printPreview"
-                                required
+                                //required
                             />
                         </Button>
                     </div>
@@ -189,7 +209,7 @@ const PrintComp: React.FC<{ index: number }> = ({ index }) => {
                                 type="file"
                                 onChange={fileUpload}
                                 name="mockup"
-                                required
+                               // required
                             />
                         </Button>
                     </div>

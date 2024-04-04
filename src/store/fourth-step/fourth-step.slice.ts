@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface IInitial {
+export interface IFourthStep {
     fourthStepName: string,
     isVTO: boolean,
     isIndividualPack: boolean,
@@ -10,7 +10,7 @@ interface IInitial {
     deliveryData?: string
 }
 
-const initialState: IInitial = {
+const initialState: IFourthStep = {
     fourthStepName: 'УПАКОВКА И ДОСТАВКА',
     isVTO: true,
     isIndividualPack: true,
@@ -38,6 +38,14 @@ export const fourthStepSlice = createSlice({
                 if (item.type === name) item.status = true;
             })
         },
+        resetState: () => {
+            return initialState
+        },
+
+        //@ts-ignore
+        restoreState: (state, action) => {
+            return action.payload;
+        }
     },
 });
 

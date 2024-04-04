@@ -1,6 +1,10 @@
 import { IPrint } from "./types"
 import { TPrintParams } from "./types"
 
+
+//export const API_BASE_URL = 'http://localhost:1337';
+export const API_BASE_URL = 'https://pnhdstudioapi.ru/taskapp';
+
 export type TSewingOptions = Array<
     {
         name: string,
@@ -205,8 +209,6 @@ export const sewingOptions: TSewingOptions = [
 ]
 
 
-
-
 export const initialPrintState: IPrint = {
     method: '',
     printWidth: '',
@@ -216,7 +218,7 @@ export const initialPrintState: IPrint = {
     comments: '',
     printPreview: null,
     mockup: null,
-    sizes: [{ size: 'XS', qty: ''}, { size: 'S', qty: ''}, { size: 'M', qty: ''}, { size: 'L', qty: ''}, { size: 'XL', qty: ''}, { size: 'XXL', qty: ''}, { size: 'XXXL', qty: ''}],
+    sizes: [],
 }
 
 

@@ -1,8 +1,10 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 import 'dayjs/locale/de';
+import { TPassport } from "../../utils/types";
 
-interface IFirstStep {
+export interface IFirstStep {
+    orderType: 'new' | 'edit';
     stepOneName: string;
     orderNumber: string;
     managerName: string;
@@ -11,9 +13,11 @@ interface IFirstStep {
     textileType: string;
     textileQty: string;
     passport: string;
+    validPassport: TPassport | undefined;
 }
 
 const initialState: IFirstStep = {
+    orderType: 'new',
     stepOneName: 'ОБЩАЯ ИНФОРМАЦИЯ',
     orderNumber: '',
     managerName: '',
@@ -22,6 +26,7 @@ const initialState: IFirstStep = {
     textileType: '',
     textileQty: '',
     passport: '',
+    validPassport: undefined,
 };
 
 export const firstStepSlice = createSlice({
@@ -49,6 +54,26 @@ export const firstStepSlice = createSlice({
         addPassport: (state, { payload }) => {
             state.passport = payload;
         },
+        setValidPassport: (state, action: PayloadAction<TPassport>) => {
+            return {
+                ...state,
+                validPassport: action.payload,
+            }
+        },
+        resetState: () => {
+            return initialState
+        },
+
+        //@ts-ignore
+        restoreState: (state, action) => {
+            return action.payload;
+        },
+        setOrderType: (state, action) => {
+            return {
+                ...state,
+                orderType: action.payload
+            }
+        }
         
     },
 });

@@ -1,10 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
-//import { validityChecker } from "../../utils/constants";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-//import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
-//import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -18,6 +15,8 @@ import { actions as secondStepActions } from "../../store/second-step/second-ste
 import "dayjs/locale/de";
 import dayjs from "dayjs";
 import Box from "@mui/material/Box";
+import { useGetPassportsQuery } from "../../api/api";
+import { useGetModelTypesQuery } from '../../api/api';
 
 const FirstStep: React.FC = () => {
     const {
@@ -28,17 +27,26 @@ const FirstStep: React.FC = () => {
         textileType,
         textileQty,
         passport,
+        orderType
     } = useAppSelector((store) => store.firstStep);
-    const store = useAppSelector((store) => store.firstStep);
+    const store = useAppSelector(store => store);
     const { activeStep, currentStep } = useAppSelector((store) => store.stepper);
+    const { userToken, user } = useAppSelector(store => store.auth);
     const dispatch = useAppDispatch();
+    dispatch(firstStepActions.addManagerName(`${user?.firstName} ${user?.lastName}`))
     const [formValidity, setFormValidity] = useState<boolean>(false);
     const ref = useRef(null);
+    const { data: modelPassports } = useGetPassportsQuery(userToken);
+    const { data: modelTypes } = useGetModelTypesQuery(userToken);
+
     
+
+
+
     useEffect(() => {
         const form: HTMLFormElement = ref?.current!;
         setFormValidity(form?.checkValidity());
-    }, [store]); 
+    }, [store.firstStep]); 
 
     const textInputsChangeHandler = (e: any) => {
 
@@ -51,8 +59,15 @@ const FirstStep: React.FC = () => {
             dispatch(firstStepActions.addManagerName(e.target.value));
         e.target.name === "textileType" &&
             dispatch(firstStepActions.addTextileType(e.target.value));
-        e.target.name === "modelPassport" &&
-            dispatch(firstStepActions.addPassport(e.target.value));
+
+            if (e.target.name === "modelPassport") {
+                
+                dispatch(firstStepActions.addPassport(e.target.value));
+                const validPassport = modelPassports?.data.find(item => item.attributes.name === e.target.value);
+                dispatch(firstStepActions.setValidPassport(validPassport!));
+                dispatch(secondStepActions.setInitialSizes(validPassport?.attributes.sizes.data));
+            }
+            
     };
 
     const addStartDate = (newValue: any) => {
@@ -70,15 +85,20 @@ const FirstStep: React.FC = () => {
 
     const submitHandler = (e: any) => {
         e.preventDefault();
-
-        const newCurrentStep =
-            activeStep === currentStep ? currentStep + 1 : currentStep;
-        dispatch(stepperActions.changeCurrentStep(newCurrentStep));
         dispatch(secondStepActions.setSewingOptions(textileType));
+        if (orderType === 'new') {
+            const newCurrentStep =
+                activeStep === currentStep ? currentStep + 1 : currentStep;
+            dispatch(stepperActions.changeCurrentStep(newCurrentStep));
+            
+        } else {
+            dispatch(stepperActions.changeCurrentStep(2));
+        }
     };
 
     return (
-        <section className={styles.content}>
+        <>
+        {modelPassports && modelTypes && <section className={styles.content}>
             <Box
                 component="form"
                 onSubmit={submitHandler}
@@ -132,18 +152,6 @@ const FirstStep: React.FC = () => {
                     />
                 </LocalizationProvider>
                 <FormControl>
-                    {/*
-                    <InputLabel
-                        id="textileLabel"
-                        required={true}
-                        error={
-                            validity.textileType !== undefined ? !validity.textileType : false
-                        }
-                    >
-                        Вид изделий
-                    </InputLabel>
-                    */}
-                    {/*Сделать валидацию для этой параши ниже*/}
                     <TextField
                         select
                         id="textileType"
@@ -155,22 +163,34 @@ const FirstStep: React.FC = () => {
                         onChange={textInputsChangeHandler} 
                         placeholder='Выберите тип изделий'       
                     >
-                        <MenuItem value="Футболка">Футболка</MenuItem>
-                        <MenuItem value="Худи">Худи</MenuItem>
-                        <MenuItem value="Свитшот">Свитшот</MenuItem>
+                        {modelTypes.data.map((item, index) => (
+                            <MenuItem value={item.attributes.type} key={index}>{item.attributes.type}</MenuItem>
+                        ))}                        
                     </TextField>
                 </FormControl>
-                <TextField
-                    id="modelPassport"
-                    name="modelPassport"
-                    label="Паспорт модели"
-                    variant="outlined"
-                    value={passport}
-                    onChange={textInputsChangeHandler}
-                    required={true}
-                    inputProps={{ minLength: "1" }}
-                    placeholder='Введите паспорт модели'
-                />
+                <FormControl>
+                    <TextField
+                        select
+                        id="modelPassport"
+                        name="modelPassport"
+                        label="Паспорт модели"
+                        variant="outlined"
+                        value={passport}
+                        onChange={textInputsChangeHandler}
+                        required={true}
+                        inputProps={{ minLength: "1" }}
+                        placeholder='Введите паспорт модели'
+                    >
+                        {modelPassports.data.map((item, index) => {
+                                if (textileType && item.attributes.model_type.data.attributes.type === textileType) {
+                                    return (
+                                        <MenuItem value={item.attributes.name} key={index}>{item.attributes.name}</MenuItem>
+                                    )    
+                                }         
+                            
+                        })}                        
+                    </TextField>
+                </FormControl>
                 <TextField
                     id="textileQty"
                     name="textileQty"
@@ -195,7 +215,8 @@ const FirstStep: React.FC = () => {
                     Далее
                 </Button>
             </Box>
-        </section>
+        </section>}
+        </>
     );
 };
 

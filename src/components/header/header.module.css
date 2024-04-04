@@ -1,0 +1,29 @@
+.header {
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    height: 90px;
+    margin: 0;
+    padding: 20px;
+    margin-bottom: 100px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(120, 120, 120, 0.5);
+}
+
+.header_title {
+    margin: 0;
+    padding: 0;
+    font-size: 46px;
+    line-height: 46px;
+    color: black;
+}
+
+.header_menuWrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    box-sizing: border-box;
+    gap: 10px;
+}

@@ -14,6 +14,9 @@ export const stepperSlice = createSlice({
         changeCurrentStep: (state, {payload}) => {
             state.activeStep = payload;
             state.currentStep = payload;
+        },
+        resetState: () => {
+            return initialState
         }
     },
 });

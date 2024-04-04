@@ -18,22 +18,23 @@ const steps = ['Общая информация', 'Пошив', 'Печать', 
 const StepperComponent: React.FC = () => {
     
     const { activeStep, currentStep } = useAppSelector(store => store.stepper)
+    const { orderType } = useAppSelector(store => store.firstStep)
     const dispatch = useAppDispatch();
 
     const stepClickHandler = (index: number) => () => {
          dispatch(actions.changeActiveStep(index + 1));
+         dispatch(actions.changeCurrentStep(index + 1));
     }
-
 
     return (
     <>
         <Box sx={{ width: '80%' }}>
             <Stepper nonLinear activeStep={activeStep - 1}>
                 {steps.map((label, index) => {
-                const stepProps: { completed?: boolean } = {completed: index + 1 < currentStep};
+                const stepProps: { completed?: boolean } = {completed: orderType === 'new' ? index + 1 < currentStep : true};
                 return (
                     <Step key={label} {...stepProps}>
-                        <StepButton onClick={stepClickHandler(index)} disabled={index + 1 > currentStep}>
+                        <StepButton onClick={stepClickHandler(index)} disabled={orderType === 'new' ? index + 1 > currentStep : false}>
                             <StepLabel>{label}</StepLabel>
                         </StepButton>
                     </Step>
