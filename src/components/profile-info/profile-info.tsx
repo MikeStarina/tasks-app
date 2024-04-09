@@ -1,14 +1,15 @@
 import React from 'react';
 import styles from './profile-info.module.css';
 import { useAppSelector } from '../../store/hooks';
-
-
+import dayjs from "dayjs";
+import 'dayjs/locale/ru'
 
 
 
 
 const ProfileInfo: React.FC = () => {
     const { user } = useAppSelector(store => store.auth);
+
     return(
         <>
             {user && <div className={styles.profile_info}>
@@ -16,7 +17,7 @@ const ProfileInfo: React.FC = () => {
                 <p className={styles.profileInfo_text}>ФИО: {`${user.lastName} ${user.firstName}`}</p>
                 <p className={styles.profileInfo_text}>username: {user.username}</p>
                 <p className={styles.profileInfo_text}>email: {user.email}</p>
-                <p className={styles.profileInfo_text}>Дата создания: {user.createdAt}</p>             
+                <p className={styles.profileInfo_text}>Дата создания: {`${dayjs(user?.createdAt).format('DD.MM.YYYY HH:mm')}`}</p>             
             </div>}
         </>
     )

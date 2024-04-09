@@ -76,6 +76,10 @@ const PrintComp: React.FC<{ index: number }> = ({ index }) => {
         );
     };
 
+    const deletePrintHandler = () => {
+        dispatch(thirdStepActions.deletePrint({ index }))
+    }
+
     return (
         <div className={styles.step}>
             <h3>ПРИНТ #{printNumber}</h3>
@@ -218,6 +222,14 @@ const PrintComp: React.FC<{ index: number }> = ({ index }) => {
             {currentPrint.method && (
                 <PrintSizesComponent currentPrint={currentPrint} index={index} />
             )}
+            <Button
+                sx={{ marginTop: '50px' }}
+                type='button'
+                variant="contained"
+                onClick={deletePrintHandler}
+            >
+                Удалить
+            </Button>
         </div>
     );
 };

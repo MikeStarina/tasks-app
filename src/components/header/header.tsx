@@ -10,13 +10,15 @@ import Avatar from '@mui/material/Avatar';
 
 
 const Header: React.FC = () => {
+
+    
     const { user } = useAppSelector(store => store.auth);
     return(
         <header className={styles.header}>
             <Link to='/'>
                 <h1 className={styles.header_title}>T.APP</h1> 
             </Link>
-            <Link to='/profile'>
+            <Link to='/profile' style={{ color: '#bdbdbd'}}>
                 <div className={styles.header_menuWrapper}>
                     {user && <Avatar sx={{textTransform: 'uppercase' }}>{user.firstName[0]}{user.lastName[0]}</Avatar>}
                     {user && <p className={styles.header_managerName}>{`${user.firstName} ${user.lastName}`}</p>}

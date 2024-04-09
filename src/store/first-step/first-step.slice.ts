@@ -1,6 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
-import 'dayjs/locale/de';
+import 'dayjs/locale/ru';
 import { TPassport } from "../../utils/types";
 
 export interface IFirstStep {
@@ -21,8 +21,8 @@ const initialState: IFirstStep = {
     stepOneName: 'ОБЩАЯ ИНФОРМАЦИЯ',
     orderNumber: '',
     managerName: '',
-    startDate: JSON.stringify(dayjs().locale("de")),
-    dueDate: JSON.stringify(dayjs().locale("de").add(30, 'day')),
+    startDate: JSON.stringify(dayjs().locale("ru")),
+    dueDate: JSON.stringify(dayjs().locale("ru").add(30, 'day')),
     textileType: '',
     textileQty: '',
     passport: '',

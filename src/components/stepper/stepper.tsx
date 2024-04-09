@@ -9,7 +9,7 @@ import { useAppSelector, useAppDispatch } from '../../store/hooks';
 import { StepButton } from '@mui/material';
 import { actions } from '../../store/stepper/stepper.slice';
 
-const steps = ['Общая информация', 'Пошив', 'Печать', 'Доставка и упаковка'];
+const steps = ['Общая информация', 'Пошив', 'Фурнитура', 'Печать', 'Доставка и упаковка'];
 
 
 
@@ -34,7 +34,7 @@ const StepperComponent: React.FC = () => {
                 const stepProps: { completed?: boolean } = {completed: orderType === 'new' ? index + 1 < currentStep : true};
                 return (
                     <Step key={label} {...stepProps}>
-                        <StepButton onClick={stepClickHandler(index)} disabled={orderType === 'new' ? index + 1 > currentStep : false}>
+                        <StepButton onClick={stepClickHandler(index)} disabled={orderType === 'new' ? index + 1 > currentStep : false} sx={{'&.MuiButtonBase-root': { outline: 'none' }}}>
                             <StepLabel>{label}</StepLabel>
                         </StepButton>
                     </Step>

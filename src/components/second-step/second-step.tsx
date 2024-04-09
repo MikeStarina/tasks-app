@@ -5,7 +5,7 @@ import Button from '@mui/material/Button';
 import SizesComponent from "../sizes-component/sizes-component";
 import PartForPrintComponent from "../parts-for-print-component/parts-for-print-component";
 //import SewingOptions from "../sewing-options-comp/sewing-options";
-import FurnitureOptions from "../furniture-options-comp/furniture-options";
+//import FurnitureOptions from "../furniture-options-comp/furniture-options";
 import { useAppSelector, useAppDispatch } from "../../store/hooks";
 import TextField from '@mui/material/TextField';
 import { actions as secondStepActions } from "../../store/second-step/second-step.slice";
@@ -20,7 +20,7 @@ import Box from '@mui/material/Box';
 const SecondStep: React.FC = () => {
 
     const { activeStep, currentStep } = useAppSelector(store => store.stepper);
-    const { textileType, orderType } = useAppSelector(store => store.firstStep);
+    const { orderType } = useAppSelector(store => store.firstStep);
     const { isQtyEqual, sewingComment } = useAppSelector(store => store.secondStep);
     const secondStep = useAppSelector(store => store.secondStep);
     const [formValidity, setFormValidity] = useState<boolean>(false);
@@ -69,7 +69,7 @@ const SecondStep: React.FC = () => {
                     <PartForPrintComponent />
                 </div>
                 {/* <SewingOptions textileType={textileType} /> */}
-                <FurnitureOptions textileType={textileType} />
+                {/* <FurnitureOptions textileType={textileType} /> */}
                 <h3>Комментарии</h3>
                 <TextField
                     id="sewingComments"

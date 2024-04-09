@@ -12,6 +12,7 @@ import { actions as secondStepActions } from "../../store/second-step/second-ste
 import { actions as thirdStepActions } from "../../store/third-step/third-step.slice";
 import { actions as fourthStepActions } from "../../store/fourth-step/fourth-step.slice";
 import { actions as stepperActions } from "../../store/stepper/stepper.slice";
+import { actions as furnitureActions } from "../../store/furniture-step/furniture-step.slice";
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControl from '@mui/material/FormControl';
@@ -61,7 +62,7 @@ const FourthStep: React.FC = () => {
             dispatch(secondStepActions.resetState());
             dispatch(thirdStepActions.resetState());
             dispatch(fourthStepActions.resetState());
-            dispatch(stepperActions.resetState());
+            dispatch(furnitureActions.resetState());
 
             
             setIsReadyToRender(false);
@@ -78,6 +79,7 @@ const FourthStep: React.FC = () => {
             dispatch(thirdStepActions.resetState());
             dispatch(fourthStepActions.resetState());
             dispatch(stepperActions.resetState());
+            dispatch(furnitureActions.resetState());
 
             
             setIsReadyToRender(false);
@@ -105,7 +107,8 @@ const FourthStep: React.FC = () => {
             firstStep: store.firstStep,
             secondStep: store.secondStep,
             thirdStep: store.thirdStep,
-            fourthStep: store.fourthStep
+            fourthStep: store.fourthStep,
+            furniture: store.furniture
         }
         const data = {
             data: {
@@ -124,6 +127,7 @@ const FourthStep: React.FC = () => {
             secondStep={store.secondStep}
             thirdStep={store.thirdStep}
             fourthStep={store.fourthStep} 
+            furnitureStep={store.furniture}
         />
         
         

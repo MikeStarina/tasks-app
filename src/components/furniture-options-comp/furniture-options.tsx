@@ -5,14 +5,14 @@ import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import TextField from '@mui/material/TextField';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { actions as secondStepActions } from '../../store/second-step/second-step.slice';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
-import InputLabel from '@mui/material/InputLabel';
+import { actions as furnitureActions } from '../../store/furniture-step/furniture-step.slice';
+// import Radio from '@mui/material/Radio';
+// import RadioGroup from '@mui/material/RadioGroup';
+// import FormControl from '@mui/material/FormControl';
+// import FormLabel from '@mui/material/FormLabel';
+// import Select from '@mui/material/Select';
+// import MenuItem from '@mui/material/MenuItem';
+// import InputLabel from '@mui/material/InputLabel';
 
 
 
@@ -45,19 +45,19 @@ const FurnitureOptions: React.FC<TProps> = (props) => {
     const [ textileItem ] = filteredOptions;
 
     const dispatch = useAppDispatch();
-    const { furniture } = useAppSelector(store => store.secondStep);
-    const { sizeLabel, containLabel } = furniture;
+    const { furniture } = useAppSelector(store => store.furniture);
+    //const { sizeLabel, containLabel } = furniture;
 
 
 
     const changeHandler = (e: any) => {
 
-        e.target.id === 'isCord' && dispatch(secondStepActions.setIsCord());
-        e.target.name === 'cordColor' && dispatch(secondStepActions.setFurniture({name: e.target.name, value: e.target.value}))
-        e.target.id === 'sizeLabel' && dispatch(secondStepActions.setLabels({id: e.target.id, name: e.target.name }))
-        e.target.id === 'containLabel' && dispatch(secondStepActions.setLabels({id: e.target.id, name: e.target.name }))
-        e.target.name === 'sizeLabelAssemblingType' && dispatch(secondStepActions.setLabelsAssembling({id: e.target.name, value: e.target.value }))
-        e.target.name === 'containLabelAssemblingType' && dispatch(secondStepActions.setLabelsAssembling({id: e.target.name, value: e.target.value }))
+        e.target.id === 'isCord' && dispatch(furnitureActions.setIsCord());
+        e.target.name === 'cordColor' && dispatch(furnitureActions.setFurniture({name: e.target.name, value: e.target.value}))
+        e.target.id === 'sizeLabel' && dispatch(furnitureActions.setLabels({id: e.target.id, name: e.target.name }))
+        e.target.id === 'containLabel' && dispatch(furnitureActions.setLabels({id: e.target.id, name: e.target.name }))
+        e.target.name === 'sizeLabelAssemblingType' && dispatch(furnitureActions.setLabelsAssembling({id: e.target.name, value: e.target.value }))
+        e.target.name === 'containLabelAssemblingType' && dispatch(furnitureActions.setLabelsAssembling({id: e.target.name, value: e.target.value }))
     }
 
     return (
@@ -87,7 +87,7 @@ const FurnitureOptions: React.FC<TProps> = (props) => {
             </div>
             </>
             }
-                <div className={styles.box}>
+                {/* <div className={styles.box}>
                     <div className={styles.column}>
                         <h4>Бирки /Размерник/:</h4>
                         
@@ -135,7 +135,7 @@ const FurnitureOptions: React.FC<TProps> = (props) => {
                                         </Select>
                             </FormControl>
                     </div> 
-                </div>
+                </div> */}
             
         </>
     )
