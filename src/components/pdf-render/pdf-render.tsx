@@ -6,10 +6,13 @@ import PdfFooter from './pdf-footer';
 import SizesTable from './sizes-table';
 import PdfPrintParams from './pdfPrintParams/pdfPrintParams';
 import React from 'react';
+import { IFurnitureState } from '../../store/furniture-step/furniture-step.slice';
 import { IFirstStep } from '../../store/first-step/first-step.slice';
 import { ISecondStep } from '../../store/second-step/second-step.slice';
 import { IThirdStep } from '../../store/third-step/third-step.slice';
 import { IFourthStep } from '../../store/fourth-step/fourth-step.slice';
+import { API_BASE_URL } from '../../utils/constants';
+
 
 
 interface IProps {
@@ -17,26 +20,35 @@ interface IProps {
   secondStep: ISecondStep,
   thirdStep: IThirdStep,
   fourthStep: IFourthStep,
+  furnitureStep: IFurnitureState
 }
 
 
 
 
 
-const Pdfrenderer: React.FC<IProps> = ({ firstStep, secondStep, thirdStep, fourthStep }) => {
+
+
+const Pdfrenderer: React.FC<IProps> = ({ firstStep, secondStep, thirdStep, fourthStep, furnitureStep }) => {
 
     const { orderNumber, managerName, startDate, dueDate, textileType, textileQty, stepOneName, passport } = firstStep;
-    const { fabricColor, primaryFabricType, secondaryFabricType, stepTwoName, supplier, sizes, printOnParts, furniture, sewingComment } = secondStep;
+    const { fabricColor, primaryFabricType, secondaryFabricType, stepTwoName, supplier, sizes, printOnParts, sewingComment } = secondStep;
     const { stepThreeName, isOrderWithPrint, prints } = thirdStep;
     const { isVTO, isIndividualPack, isStretch, delivery, deliveryData, VTOComments } = fourthStep;
+    const { furniture: mainFurniture, additionalFurniture } = furnitureStep;
+
+
+    
+   
+
 
     // const neckClosure = sewingOptions[0].neckClosure.filter((item) => item.status)[0];
     // const neckSewing = sewingOptions[0].neckSewing.filter((item) => item.status)[0];
     // const flatlock = sewingOptions[0].flatlock.filter((item) => item.status);
 
     const deliveryType = delivery.filter(item => item.status === true)[0];
-    const currentSizeLabel = furniture.sizeLabel.filter(item => item.status === true)[0];
-    const currentContainLabel = furniture.containLabel.filter(item => item.status === true)[0];
+    const currentSizeLabel = mainFurniture.sizeLabel.filter(item => item.status === true)[0];
+    const currentContainLabel = mainFurniture.containLabel.filter(item => item.status === true)[0];
 
     Font.register({ family: 'Roboto', src: Roboto });
     const dateFormatter = (date: string) => {
@@ -71,6 +83,14 @@ const Pdfrenderer: React.FC<IProps> = ({ firstStep, secondStep, thirdStep, fourt
             display: 'flex',
             flexDirection: 'row',
             justifyContent: 'space-between',
+            alignItems: 'flex-start',
+            width: '100%',
+            padding: '15 0',
+        },
+        twoColumnsFur: {
+            display: 'flex',
+            flexDirection: 'row',
+            justifyContent: 'flex-start',
             alignItems: 'flex-start',
             width: '100%',
             padding: '15 0',
@@ -112,8 +132,18 @@ const Pdfrenderer: React.FC<IProps> = ({ firstStep, secondStep, thirdStep, fourt
           display: 'flex',
           justifyContent: 'center',
           border: '1px solid black'
+        },
+        imgColumnFur: {
+          width: '50%',
+          minWidth: '50%',
+          height: '300px',
+          display: 'flex',
+          justifyContent: 'center',
+          border: '1px solid black'
         }
       });
+
+     
 
       return (
         <Document title={orderNumber}>
@@ -200,36 +230,129 @@ const Pdfrenderer: React.FC<IProps> = ({ firstStep, secondStep, thirdStep, fourt
                 </View>
               </View>
               <View style={styles.twoColumns}>
-                {/* <View style={styles.columnOne}>
-
-                  <Text>Закрытие Горловины: {neckClosure.label}</Text>  
-                  <Text>Обработка Горловины: {neckSewing.label}</Text>  
-                </View>
-                <View style={styles.columnTwo}>
-                    {flatlock.length > 0 && <Text>Распошив элементов:</Text>}
-                    {flatlock.length > 0 && flatlock.map((item, index) => {
-                        if (item.status) {
-                          return (
-                            <Text key={index}>{item.label}</Text>
-                          )
-                        }
-                    })}
-                  
-                </View> */}
               </View>
-              <View style={styles.twoColumns}>
-                <View style={styles.columnOne}>
-
-                  <Text>Фурнитура и бирки:</Text>  
-                  {furniture.cordColor && <Text>Шнур, цвет шнура: {furniture.cordColor}</Text>}
-                  <Text>Размерник: {currentSizeLabel.name}, Втачать: {furniture.sizeLabelAssembling}</Text>
-                  <Text>Составник: {currentContainLabel.name}, Втачать: {furniture.containLabelAssembling}</Text>
-                </View>
-              </View>
+             
               {sewingComment && <><Text>Комментарии к пошиву:</Text>
               <Text>{sewingComment}</Text></>}
               <PdfFooter />
           </Page>
+
+
+
+
+          <Page size="A4" style={styles.page}>
+              <Text style={styles.orderNumber}>ФУРНИТУРА И БИРКИ</Text>
+              <View style={styles.twoColumns}>
+                <View style={styles.columnOne}>
+                  {mainFurniture.cordColor && <Text>Шнур, цвет шнура: {mainFurniture.cordColor}</Text>}
+                </View>
+                
+              </View>
+              <View style={styles.twoColumns}>
+                  {
+                    currentSizeLabel.type === 'basicSizeLabel' ? 
+                    (
+                      <View style={styles.columnOne}>
+                        <Text>Размерник: {currentSizeLabel.name}, Втачать: {mainFurniture.sizeLabelAssembling}</Text>
+                      </View>
+                    ) : (
+                      <>
+                        <View style={styles.columnOne}>
+                            <View style={styles.imgColumn}>                        
+                                <Image src={`${API_BASE_URL}${currentSizeLabel.preview}`} style={{objectFit: 'contain'}}/>
+                            </View>
+                        </View>
+                        <View style={styles.columnTwo}>
+                          <Text>Размерник: {currentSizeLabel.name}, Втачать: {mainFurniture.sizeLabelAssembling}</Text>
+                        </View>
+                      </>
+                    )
+                  }
+              </View>
+              <View style={styles.twoColumns}>
+                  {
+                    currentContainLabel.type === 'basicContainLabel' ? 
+                    (
+                      <View style={styles.columnOne}>
+                        <Text>Размерник: {currentContainLabel.name}, Втачать: {mainFurniture.containLabelAssembling}</Text>
+                      </View>
+                    ) : (
+                      <>
+                        <View style={styles.columnOne}>
+                            <View style={styles.imgColumn}>                        
+                                <Image src={`${API_BASE_URL}${currentContainLabel.preview}`} style={{objectFit: 'contain'}}/>
+                            </View>
+                        </View>
+                        <View style={styles.columnTwo}>
+                          <Text>Размерник: {currentContainLabel.name}, Втачать: {mainFurniture.containLabelAssembling}</Text>
+                        </View>
+                      </>
+                    )
+                  }
+              </View>
+
+            <PdfFooter />
+          </Page>
+
+
+                  {additionalFurniture && additionalFurniture.map((item, index, arr) => {
+                    if (index === 0) {
+                      return (
+                        <Page size="A4" style={styles.page}>
+                              <View style={styles.twoColumns}>
+                                <View style={styles.imgColumn}>                        
+                                    <Image src={`${API_BASE_URL}${item.preview}`} style={{objectFit: 'contain'}}/>
+                                </View>
+                                <View style={styles.columnTwo}>
+                                  <Text>Название: {item.name}, Комментарий: {item.assembling}</Text>
+                                </View>
+                              </View>
+                              {arr[index + 1] && <>
+                              <View style={styles.twoColumns}>                                
+                                  <View style={styles.imgColumn}>                        
+                                      <Image src={`${API_BASE_URL}${arr[index + 1].preview}`} style={{objectFit: 'contain'}}/>
+                                  </View>
+                            
+                                  <View style={styles.columnTwo}>
+                                    <Text>Название: {arr[index + 1].name}, Комментарий: {arr[index + 1].assembling}</Text>
+                                  </View>
+                              </View>
+                            </>}
+                          <PdfFooter />
+                        </Page>
+                      )
+                    }
+                    if (index % 2 === 0) {
+                      return (
+                        <Page size="A4" style={styles.page}>
+                            <View style={styles.twoColumns}>
+                              <View style={styles.imgColumn}>                        
+                                  <Image src={`${API_BASE_URL}${item.preview}`} style={{objectFit: 'contain'}}/>
+                              </View>
+                            
+                              <View style={styles.columnTwo}>
+                                <Text>Название: {item.name}, Комментарий: {item.assembling}</Text>
+                              </View>
+                            </View>
+                            {arr[index + 1] && <>
+                              <View style={styles.twoColumns}>
+                                <View style={styles.imgColumn}>                        
+                                    <Image src={`${API_BASE_URL}${arr[index + 1].preview}`} style={{objectFit: 'contain'}}/>
+                                </View>
+                              
+                                <View style={styles.columnTwo}>
+                                  <Text>Название: {arr[index + 1].name}, Комментарий: {arr[index + 1].assembling}</Text>
+                                </View>
+                            </View></>}
+                          <PdfFooter />
+                        </Page>
+                      )
+                    }
+                  })}
+
+
+
+          
           {isOrderWithPrint && prints && prints.map((item, index) => {
             
             return(

@@ -6,6 +6,7 @@ import { reducer as stepperReducer } from './stepper/stepper.slice';
 import { reducer as thirdStepReducer } from './third-step/third-step.slice';
 import { reducer as fourthStepReducer } from './fourth-step/fourth-step.slice';
 import { reducer as authReducer } from './auth/auth.slice';
+import { reducer as furnitureReducer } from './furniture-step/furniture-step.slice';
 import { api } from '../api/api';
 
 
@@ -20,6 +21,7 @@ export const store = configureStore({
         thirdStep: thirdStepReducer,
         fourthStep: fourthStepReducer,
         auth: authReducer,
+        furniture: furnitureReducer,
         [api.reducerPath]: api.reducer,
     },
     middleware: (getDefaultMiddleware) =>

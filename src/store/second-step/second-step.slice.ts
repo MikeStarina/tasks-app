@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { sewingOptions, TSewingOptions } from "../../utils/constants";
 
 
 export interface ISecondStep {
@@ -18,15 +17,6 @@ export interface ISecondStep {
     printOnParts: {
         isPrintOnParts: boolean;
         partsForPrint: Array<{ name: string, isForPrint: boolean, method: string, ruName: string }>;
-    };
-    sewingOptions: TSewingOptions;
-    furniture: {
-        isCord: boolean;
-        cordColor: string; 
-        sizeLabel: Array<{ type: string, name: string, status: boolean, }>;
-        sizeLabelAssembling: string,
-        containLabel: Array<{ type: string, name: string, status: boolean, }>;
-        containLabelAssembling: string,
     };
     sewingComment: string;
 }
@@ -50,15 +40,6 @@ const initialState: ISecondStep = {
             {name: 'leftHood', ruName: 'Левый Капюшон', isForPrint: false, method: ''},
             {name: 'rightHood', ruName: 'Правый Капюшон', isForPrint: false, method: ''},
     ]
-    },
-    sewingOptions,
-    furniture: {
-        isCord: true,
-        cordColor: '',
-        sizeLabel: [{ type: 'basicSizeLabel', name: 'Размерник PNHD', status: true, }, { type: 'customSizeLabel', name: 'Кастомный размерник', status: false, }],
-        sizeLabelAssembling: '',
-        containLabel: [{ type: 'basicContainLabel', name: 'Составник PNHD', status: true, }, { type: 'customContainLabel', name: 'Кастомный составник', status: false, }],
-        containLabelAssembling: '',
     },
     sewingComment: '',
 };
@@ -99,7 +80,7 @@ export const secondStepSlice = createSlice({
         setSizes: (state, { payload }) => {
               state.sizes?.forEach((item) => {
                 if (item?.size === payload.size) {
-                    item!.qty = payload.qty === '' ? 0 : payload.qty;
+                    item!.qty = payload.qty;
                 }
               })
         },
@@ -130,63 +111,9 @@ export const secondStepSlice = createSlice({
                 if (part.name === payload.name) part.method = payload.method;
             })
         },                    
-        setSewingOptions: (state, { payload }) => {            
-            const options = state.sewingOptions.filter((item) => item.name === payload);
-            state.sewingOptions = options;
-        },        
-        setNeckClosure: (state, { payload }) => {          
-            state.sewingOptions[0].neckClosure.forEach((item) => {
-                item.status = false;
-                if (item.label === payload) item.status = true; 
-            });
-        },        
-        setNeckSewing: (state, { payload }) => {          
-            state.sewingOptions[0].neckSewing.forEach((item) => {
-                item.status = false;
-                if (item.label === payload) item.status = true; 
-            });
-        },        
-        setFlatlock: (state, { payload }) => {          
-            state.sewingOptions[0].flatlock.forEach((item) => {                
-                if (item.label === payload.value) item.status = payload.status; 
-            });
-        },       
-        setFurniture: (state, { payload }) => {        
-            if (payload.name === 'cord') state.furniture.isCord = payload.value;
-            if (payload.name === 'cordColor') state.furniture.cordColor = payload.value;
-        },       
         setSewingComment: (state, { payload }) => {        
             state.sewingComment = payload;
         },       
-        setLabels: (state, { payload }) => { 
-       
-            const {id, name} = payload
-            if (id === 'sizeLabel') {
-        
-                state.furniture.sizeLabel.forEach((item) => {
-                    item.status = item.type === name ? true : false;
-                })
-            }
-            if (id === 'containLabel') {
-                state.furniture.containLabel.forEach((item) => {
-                    item.status = item.type === name ? true : false;
-                })
-            }
-        },
-        setLabelsAssembling: (state, { payload }) => {   
-            const { id, value } = payload;    
-            if (id === 'sizeLabelAssemblingType') state.furniture.sizeLabelAssembling = value;
-            if (id === 'containLabelAssemblingType') state.furniture.containLabelAssembling = value;
-        },
-        setIsCord: (state) => {
-            return {
-                ...state,
-                furniture: {
-                    ...state.furniture,
-                    isCord: !state.furniture.isCord,
-                }
-            }
-        },
         resetState: () => {
             return initialState
         },

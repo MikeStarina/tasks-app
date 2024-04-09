@@ -14,19 +14,12 @@ import { useNavigate } from "react-router-dom";
 const LoginPage: React.FC = () => {
     const navigate = useNavigate()
     const dispatch = useAppDispatch();
-    const { loginFormData, userToken } = useAppSelector(store => store.auth);
-    const [ login, { isSuccess, data: userData} ] = useLoginMutation();
-
+    const { loginFormData } = useAppSelector(store => store.auth);
+    const [ login, { isSuccess, isError, data: userData} ] = useLoginMutation();
     useEffect(() => {
-        if(userToken) {
-            navigate('/');
-        }
-    }, [])
-
-    useEffect(() => {
-        userData && localStorage.setItem('token', userData?.jwt);
+        userData && localStorage.setItem('token', userData.jwt);
         userData && dispatch(authActions.setLoginResponseUserData(userData));
-        userData && isSuccess && navigate('/')
+        userData && isSuccess && !isError && navigate('/')
     }, [userData])
    
     const changeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -52,6 +45,7 @@ const LoginPage: React.FC = () => {
                     fullWidth
                     value={loginFormData.identifier}
                     onChange={changeHandler}
+                    error={isError}
                 />
                 <TextField
                     required
@@ -61,6 +55,7 @@ const LoginPage: React.FC = () => {
                     fullWidth
                     value={loginFormData.password}
                     onChange={changeHandler}
+                    error={isError}
                 />
                 <Button
                     variant="contained"

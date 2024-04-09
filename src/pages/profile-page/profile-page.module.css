@@ -3,17 +3,19 @@
     box-sizing: border-box;
     overflow: hidden;
     display: flex;
+    flex-direction: column;
     justify-content: flex-start;
     align-items: flex-start;
+    gap: 100px;
     margin: 0;
+    padding: 0 50px 100px 50px;
 }
 
 .profile_menu {
-    width: 20%;
+    width: 100%;
     box-sizing: border-box;
     overflow: hidden;
     display: flex;
-    flex-direction: column;
     justify-content: flex-start;
     align-items: center;
     list-style-type: none;

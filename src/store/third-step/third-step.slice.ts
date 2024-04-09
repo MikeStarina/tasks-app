@@ -99,6 +99,11 @@ export const ThirdStepSlice = createSlice({
         restoreState: (state, action) => {
             return action.payload;
         },
+        deletePrint: (state, action) => {
+            state.prints?.splice(action.payload, 1);
+            let newQty = parseInt(state.printQty);
+            state.printQty = (newQty - 1).toString();
+        }
     },
 });
 

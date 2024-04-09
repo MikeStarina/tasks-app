@@ -12,7 +12,7 @@ import { useAppDispatch } from "../../store/hooks";
 import { actions as firstStepActions } from "../../store/first-step/first-step.slice";
 import { actions as stepperActions } from "../../store/stepper/stepper.slice";
 import { actions as secondStepActions } from "../../store/second-step/second-step.slice";
-import "dayjs/locale/de";
+import "dayjs/locale/ru";
 import dayjs from "dayjs";
 import Box from "@mui/material/Box";
 import { useGetPassportsQuery } from "../../api/api";
@@ -40,8 +40,6 @@ const FirstStep: React.FC = () => {
     const { data: modelTypes } = useGetModelTypesQuery(userToken);
 
     
-
-
 
     useEffect(() => {
         const form: HTMLFormElement = ref?.current!;
@@ -85,7 +83,7 @@ const FirstStep: React.FC = () => {
 
     const submitHandler = (e: any) => {
         e.preventDefault();
-        dispatch(secondStepActions.setSewingOptions(textileType));
+        //dispatch(secondStepActions.setSewingOptions(textileType));
         if (orderType === 'new') {
             const newCurrentStep =
                 activeStep === currentStep ? currentStep + 1 : currentStep;
@@ -133,7 +131,7 @@ const FirstStep: React.FC = () => {
                     inputProps={{ minLength: "5" }}
                     placeholder='Введите ФИО менеджера заказа'
                 />
-                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
                     <DatePicker
                         name="startDate"
                         label="Дата начала"
@@ -142,7 +140,7 @@ const FirstStep: React.FC = () => {
                         views={["year", "month", "day"]}
                     />
                 </LocalizationProvider>
-                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="de">
+                <LocalizationProvider dateAdapter={AdapterDayjs} adapterLocale="ru">
                     <DatePicker
                         name="dueDate"
                         label="Дата готовности"
